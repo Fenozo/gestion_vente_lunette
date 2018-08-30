@@ -1,9 +1,45 @@
 {% extends 'base.html.twig' %}
-
+{% block stylesheets %}
+    <style>
+        .note {
+            border: 2px solid;
+            padding: 3px 14px;
+            position: relative;
+            z-index: 1;
+        }
+        .close_notify {
+            border: 2px solid;
+            position: absolute;
+            padding: 3px 8px;
+            top: 2px;
+            right: 3px;
+            display: block;
+            z-index: 120;
+            
+        }
+        .close_notify:hover {
+            cursor: pointer;
+            background:#fe4c50;
+            transition: all 0.5s;
+        }
+    </style>
+{% endblock %}
 {% block body %}
 
 <div class="container" style="min-height:450px;margin-top:200px;">
     {% form_theme form_fournisseur 'bootstrap_4_layout.html.twig' %}
+
+    <div class="col-md-12">
+        {# Message de notification #}
+            {% for message in app.flashes('notice') %}
+                <div class="panel panel-default note notification">
+                    <div class="close_notify">x</div>
+                    <div class="panel-heading">
+                        <h3 class="panel-title"> {{ message }}</h3>
+                    </div>
+                </div>
+            {% endfor %}
+    </div>
 
     <div class="col-md-12">
         {{ form_start(form_fournisseur) }}
@@ -19,4 +55,16 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        setTimeout(function(){
+            $('.notification').remove();
+        },5000);
+
+        $(document).on('click','.close_notify',function() {
+            $(this).parent().remove();
+        })
+    </script>
 {% endblock %}

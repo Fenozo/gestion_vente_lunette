@@ -1,9 +1,13 @@
 <?php
 
 namespace AppBundle\Engine;
+
 use Doctrine\Common\Persistence\ObjectManager;
 class Panier {
     private $em;
+    private $total_htt;
+    private $total_ttc;
+
     function __construct($em = null) 
     {
         if  (!isset($_SESSION)) {
@@ -81,16 +85,20 @@ class Panier {
         
 
                         $datas = $query->execute();
-                        
-                        $_SESSION['quantite_reel'][$produit_id] = $datas[0]['quantite'];
-                        if  (   intval($datas[0]['quantite'])  ==  intval($_SESSION['panier'][$produit_id])  ) {
+                        if (count($datas)) {
+                            $_SESSION['quantite_reel'][$produit_id] = $datas[0]['quantite'];
+                       
+                            if  (   intval($datas[0]['quantite'])  ==  intval($_SESSION['panier'][$produit_id])  ) {
                                 $_SESSION['saturer'][$produit_id] = 1;
-                        } else if ( intval($datas[0]['quantite'])  >  intval($_SESSION['panier'][$produit_id]) ) {
-                            $_SESSION['saturer'][$produit_id] = 0;
-                        }
-
-                        if  (empty($datas)) {
-                            $this->del($produit_id);
+                            } else if ( intval($datas[0]['quantite'])  >  intval($_SESSION['panier'][$produit_id]) ) {
+                               $_SESSION['saturer'][$produit_id] = 0;
+                            }
+    
+                            if  (empty($datas)) {
+                                $this->del($produit_id);
+                            }
+                        } else {
+                            $this->removeAll();
                         }
                     }
                     
@@ -114,6 +122,7 @@ class Panier {
             return $query->execute();
         }
     }
+
     public function count() {
         return array_sum($_SESSION['panier']);
     }
@@ -121,12 +130,13 @@ class Panier {
     public function total() {
         
         $total = 0;
+        
         if(isset($_SESSION['panier'])) {
 
             $ids = array_keys($_SESSION['panier']);
             if (count($ids) > 0) {
                 $query = $this->em->createQuery(
-                    'SELECT prod.id, p.prixUnitaire as prix, p.produit_id
+                    'SELECT prod.id, p.prixUnitaire as prix, p.produit_id , p.prixUnitaireTtc as prixTtc
                     FROM  AppBundle\Entity\Produit prod
                     LEFT JOIN AppBundle\Entity\Prix p
                     WITH prod.id = p.produit_id
@@ -136,13 +146,22 @@ class Panier {
                 $produits = $query->execute();
                 
                 foreach ($produits as  $produit) {
-                    $total += $produit['prix'] * intval($_SESSION['panier'][$produit['id']]);
+                    $this->total_htt += $produit['prix'] * intval($_SESSION['panier'][$produit['id']]);
+                    $this->total_ttc += $produit['prixTtc'] * intval($_SESSION['panier'][$produit['id']]); 
                 }
             }
 
         }
+        $total = $this->total_htt;
         
         return $total;
+    }
+
+    public function getTotalHtt() {
+        return $this->total_htt;
+    }
+    public function getTotalTtc() {
+        return $this->total_ttc;
     }
 
     public function del($produit_id) {

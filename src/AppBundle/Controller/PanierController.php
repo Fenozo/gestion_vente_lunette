@@ -18,16 +18,25 @@ class PanierController extends Controller{
      *
      * @Route("/panier", name="panier")
      */
-    public function panier() {
-        $em = $this->getDoctrine()->getEntityManager();
-        $panier = new Panier($em);
+    public function panier(ObjectManager $manager) {
+        $repository_produit = $this->getDoctrine()->getRepository(Produit::class);
+        $produits_db = $repository_produit->findAll();
+
+        $produit_liste = [];
+        foreach($produits_db as $produit) {
+            $produit_liste[$produit->getId()] = $produit;
+        }
+
+        $panier = new Panier($manager);
         $total      = $panier->total();
+        $total      = $panier->getTotalTtc();
         $panier->verifie();
         $paniers = $panier->get();
         $produits = [];
+
         if  (!empty($paniers)) {
             foreach($paniers as $panier) {
-                $produit = new Produit();
+                $produit = $produit_liste[$panier->getId()];
                 $produit
                     ->setId($panier->getId())
                     ->setTitre($panier->getTitre())
@@ -35,9 +44,11 @@ class PanierController extends Controller{
                     ->setGenre($panier->getGenre())
                     ->setType($panier->getType());
                 $produit->setQuantite($_SESSION['panier'][$panier->getId()]);
+                dump($produit);
                 $produits[] = $produit;
             }
         }
+        
         
         $paniers    = $produits;
         
@@ -63,8 +74,9 @@ class PanierController extends Controller{
                 $json['message']    =   'Ce produit n\'existe pas';
             }  else {
                 $panier->add($produit->getId());
+                $panier->total();
                 $json['error']      =   false;
-                $json['total']      =   number_format($panier->total(),0,'.',',');
+                $json['total']      =   number_format($panier->getTotalTtc(),0,'.',',');
                 $json['count']      =   $panier->count();
                 $json['message']    =   'Le produit à été bien ajouté à votre panier';
             }

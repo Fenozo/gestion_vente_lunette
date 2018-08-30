@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container" style="min-height:450px;margin-top:200px;">
+        <h1>Détail de la commande</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ commande.id }}</td>
+            </tr>
+            <tr>
+                <th>Votre nom : </th>
+                <td>{{ commande.user.userinfos.prename }}</td>
+            </tr>
+            <tr>
+                <th>Votre adresse email : </th>
+                <td>{{ commande.user.userinfos.email }}</td>
+            </tr>
+
+            <tr>
+                <th>Prix total de la commande : </th>
+                <td><strong> {{ commande.prixtotal |number_format(2, '.', ',') }} ARIARY </strong></td>
+            </tr>
+
+ {#
+            <tr>
+                <th>Image</th>
+                <td><img width= "435px" src="{{asset( urls_images ~ "/" ~ produit.image)}}" alt=""></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ produit.description }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>
+                {{ show_prix(produit).prixunitaire |number_format(2, '.', ',') }}
+                
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ produit.type }}</td>
+            </tr>
+            <tr>
+                <th>Genre</th>
+                <td>{{ produit.genre }}</td>
+            </tr>
+ #}
+        </tbody>
+    </table>
+    
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Prix unitaire ttc</th>
+                    <th>Quantite</th>
+                    <th>Prix total</th>   
+                    <th>Date de commande</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for commande in commande.commandes %}
+                <tr>
+                    <td> {{ commande.produit.titre }} </td>
+                    <td> {{ commande.prixunitairettc |number_format(2, '.', ',') }} </td>
+                    <td> {{ commande.quantite }} </td>
+                    <td> {{ commande.prixtotal |number_format(2, '.', ',') }} ARIARY</td>
+                    <td>{{ commande.createdAt | date('Y-m-d') }}</td>
+                   
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <ul>
+        <li>
+            <a href="{{ path('client_commandes') }}">Retour à la liste des commandes</a>
+        </li>
+    </ul>
+</div>
+{% endblock %}

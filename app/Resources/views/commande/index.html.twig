@@ -26,8 +26,8 @@
 {% endblock %}
 {% block body %}
 
+
 <div class="container" style="min-height:450px;margin-top:200px;">
-    
     <div class="col-md-12">
         {# Message de notification #}
             {% for message in app.flashes('notice') %}
@@ -39,35 +39,16 @@
                 </div>
             {% endfor %}
     </div>
-    <h1>fournisseur</h1>
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ fournisseur.id }}</td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ fournisseur.nom }}</td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ fournisseur.marque }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ fournisseur.description }}</td>
-            </tr>
-            
-        </tbody>
-    </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('fournisseur_liste') }}">Retour à la liste des produis</a>
-        </li>
-    </ul>
+    <div class="col-md-12">
+        <ul>
+            <li>
+                <a href="{{ path('home') }}">Retour à la page accueil</a>
+            </li>
+        </ul>
+    </div>
 </div>
+
 {% endblock %}
 
 {% block javascripts %}

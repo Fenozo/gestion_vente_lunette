@@ -49,6 +49,12 @@ class SecurityController extends Controller
 
                 $manager->persist($user);
                 $manager->flush();
+                if ($user->getId()) {
+                    $this->addFlash(
+                        'notice',
+                        'Vous compte est bien enregistré!'
+                    );
+                } 
                 return $this->redirectToRoute("security_login");
         }
 

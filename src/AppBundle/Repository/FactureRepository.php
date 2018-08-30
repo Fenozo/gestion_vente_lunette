@@ -10,4 +10,10 @@ namespace AppBundle\Repository;
  */
 class FactureRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function count() {
+        return $this->createQueryBuilder('f')
+            ->select('COUNT(f)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

@@ -103,11 +103,17 @@ class CustomTwig extends \Twig_Extension
         }
     }
     
-    public function panierTotal()
-    {
+    public function panierTotal($htt = null)
+    {   
+        $total = 0;
         $em         = $this->container->get('doctrine.orm.entity_manager');
         $panier     = new Panier($em);
+        
         $total      = $panier->total();
+        if ($htt == null ) {
+            $total      = $panier->getTotalTtc();
+        }
+        
         return '<em>'.number_format($total,0,'.',',').'</em>';
     }
 

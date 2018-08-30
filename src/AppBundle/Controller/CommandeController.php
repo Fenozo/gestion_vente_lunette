@@ -5,6 +5,7 @@ use AppBundle\Entity\Produit;
 use AppBundle\Entity\Commande;
 use AppBundle\Entity\Lignecommande;
 use AppBundle\Entity\Stock;
+use AppBundle\Entity\Facture;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -17,61 +18,40 @@ class CommandeController extends Controller
 {
 
 
+
     /**
-     *
-     * @Route("admin/commande/list", name="admin_commande")
+     *@Route("client/commande/list", name="client_commandes")
      */
-    public function admin_liste() {
-        $commandes      = [];
-        $repo_commande  = $this->getDoctrine()->getRepository(Commande::class);
-        $voter = $this->container->get("app.voteur");
-        if ( $voter->isConnected()){
-            $user       = $voter->getUser();
-            $commandes  = $repo_commande->findListeCommandes();
-        }
+    public function client_commande() {
+       
+        return $this->render('commande/index.html.twig', [
+           
+        ]);
+    }
+
+    /**
+     * @Route("admin/commande/{id}/detail", name="commande_detail")
+     */
+    public function detail_commande(Facture $commande = null,Request $request) {
         
-        return $this->render('commande/liste.html.twig', [
-            'commandes'   =>  $commandes
+
+        return $this->render('commande/admin/show.html.twig', [
+           'commande'   => $commande
+        ]);
+    }
+
+    /**
+     *@Route("admin/commande/list", name="admin_commandes")
+     */
+    public function admin_commande() {
+        $repository_commande  = $this->getDoctrine()->getRepository(Facture::class);
+        $commandes  = $repository_commande->findAll();
+        
+        return $this->render('commande/admin/index.html.twig', [
+           'commandes'  => $commandes
         ]);
     }
 
     
-    /**
-     *
-     * @Route("/commande/list", name="client_commande")
-     */
-    public function client_liste() {
-        $commandes      = [];
-        $repo_commande  = $this->getDoctrine()->getRepository(Commande::class);
-        $voter = $this->container->get("app.voteur");
-        if ( $voter->isConnected()){
-            $user       = $voter->getUser();
-            $commandes  = $repo_commande->findListeCommandes($user->getId());
-        }
-        
 
-        return $this->render('commande/liste.html.twig', [
-            'commandes'   =>  $commandes
-        ]);
-    }
-    
-    /**
-     * @Route("/commande/client/{id}/detail", name="commande_detail")
-     */
-    public function detail_commande(Commande $commande = null,Request $request) {
-        $ligne_commandes = [];
-
-        if ($commande == null) {
-            $commande = new commande();
-        }
-        if ($commande->getId() != null) {
-            $ligne_commandes = $this->getDoctrine()
-                ->getRepository(Commande::class)
-                ->findLigneCommande($commande);
-        }
-
-        return $this->render('commande/detail.html.twig', [
-            'ligne_commandes'           =>  $ligne_commandes
-        ]);
-    }
 }

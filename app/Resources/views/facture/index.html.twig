@@ -5,7 +5,7 @@
 <div class="container" style="min-height:450px;margin-top:200px;">
     <h2>Votre facture</h2>
     
-    <form action=" {{ path('valider_panier') }} "  method="POST">
+    <form action=" {{ path('valider_commande') }} "  method="POST">
         <table class="table">
             <tbody>
                 <tr>
@@ -35,6 +35,7 @@
             <tr>
             <th scope="col">#</th>
             <th scope="col">Nom du produit</th>
+            <th scope="col">Marque</th>
             <th scope="col">Type</th>
             <th scope="col">Prix unitaire</th>
             <th scope="col">Taux tva</th>
@@ -49,11 +50,13 @@
                 <tr>
                     <th scope="row">{{ panier.id }}</th>
                     <td>{{ panier.titre }}</td>
+                    <td>{{ panier.fournisseur.marque }}</td>
                     <td>{{ type_lunette(panier.type) }}</td>
                     <td>{{ show_prix(panier).prixunitaire |number_format(2, '.', ',') }}</td>
                     <td>{{ show_prix(panier).tauxtva |number_format(2, '.', ',') }}</td>
                     <td>{{ show_prix(panier).prixunitairettc |number_format(2, '.', ',') }}</td>
-                    <td><input class="panier_{{ c }}" data-id="{{ panier.id }}" data-url="{{ path('quantite_modifier',{'id':panier.id}) }}" type="text" style="width:44px; text-align:center;" name="panier[quantite][{{ panier.id }}]" value="{{ panier.quantite }}" disabled="disabled"  ></td>
+                    <input type="hidden" name="panier[quantite][{{ panier.id }}]" value="{{ panier.quantite }}" >
+                    <td><input class="panier_{{ c }}" data-id="{{ panier.id }}" data-url="{{ path('quantite_modifier',{'id':panier.id}) }}" type="text" style="width:44px; text-align:center;" name="" value="{{ panier.quantite }}" disabled="disabled"  ></td>
                     <td><a href="{{ path('panier_delete',{'id':panier.id}) }}" onclick="return confirm('Voulez-vous supprimer ce produit ?')" class="btn btn-danger">Supprimer</a></td>
                 </tr>
                 {% set c = c + 1 %} 
@@ -62,12 +65,14 @@
             <tr>
                 <th colspan="6" style="text-align:right;">Total : </th>
                 <td colspan="2"><span class="panier_total"> {{ panier_total() }} </span> ARIARY</td>
+                <td colspan="2"></td>
             </tr>
 
             {% if paniers|length >= 1 %}
             <tr>
                 <th colspan="6" style="text-align:right;"> </th>
-                <td colspan="2"><button class="btn btn-success" style="cursor:pointer">valider le panier</button></td>
+                <td colspan="2"><button class="btn btn-success" style="cursor:pointer">valider votre commande</button></td>
+                <td colspan="2"></td>
             </tr>
             {% endif %}
         </tbody>
@@ -78,32 +83,6 @@
 
 {% block javascripts %}
 <script>
-	(function($){
-
-        for (var i = 1; i<$('.ligne_panier').val(); i++) {
-           $('.panier_'+i+'').keyup(function(){
-                var url             = $(this).data('url');
-                var panier_id       = $(this).data('id');
-                var quantite        = $(this).val();
-                var self            = this;
-                $.get(url,
-                {
-                    'panier_id' :    panier_id,
-                    'quantite'  :    quantite
-                },function(data){
-                    console.log(data)
-                    if  (data.error == true) {
-                        alert('Erreur, le produit ne peut pas dépassé ce nombre de '+data.quantite_reel+'!');
-                        $(self).val(data.quantite_reel);
-                    }
-                    
-                    $('.panier_total').html(data.total);
-					$('.panier_count').html(data.count);
-
-                },'json');
-           });
-        }
-        
-    })(jQuery);
+	
 </script>
 {% endblock %}

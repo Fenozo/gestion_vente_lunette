@@ -38,7 +38,7 @@ class Facture
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updatedAt", type="datetime")
+     * @ORM\Column(name="updatedAt", type="datetime", nullable=true)
      */
     private $updatedAt;
 
@@ -48,7 +48,12 @@ class Facture
      * @ORM\Column(name="numero_facture", type="string", length=12)
      */
     private $numeroFacture;
-
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="numero_commande", type="string", length=12)
+     */
+    private $numeroCommande;
     /**
      * @var string
      *
@@ -180,6 +185,30 @@ class Facture
     public function getNumeroFacture()
     {
         return $this->numeroFacture;
+    }
+    
+    /**
+     * Set numeroCommande
+     *
+     * @param string $numeroCommande
+     *
+     * @return Facture
+     */
+    public function setNumeroCommande($numeroCommande)
+    {
+        $this->numeroCommande = $numeroCommande;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroCommande
+     *
+     * @return string
+     */
+    public function getNumeroCommande()
+    {
+        return $this->numeroCommande;
     }
 
     /**

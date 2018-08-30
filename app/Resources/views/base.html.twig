@@ -105,13 +105,15 @@
 							<ul class="navbar_menu">
 							{% if is_client() == 3 %}
 								<li><a href="{{ path('home') }}">Accueil</a></li>
-								<li><a href="{{ path('produit_lunette') }}">Produits</a></li>
+								<li><a href="{{ path('produit_lunette') }}">Achat des produits</a></li>
 								
 								
+				
 								{% else %}
 									{% if is_admin() == 3 %}
 										<li><a href="{{ path('dashboard') }}">Tableau de bord</a></li>
 										<li><a href="{{ path('produit_liste') }}">Produits</a></li>
+										<li><a href="{{ path('admin_commandes') }}">Gestion des commandes</a></li>
 										<li><a href="{{ path('fournisseur_liste') }}">Fournisseurs</a></li>
 										<li><a href="{{ path('stock_liste') }}">Stocks</a></li>
 										

@@ -17,7 +17,7 @@ class ProductController extends Controller {
     /**
      * @Route("/produit", name="produit_lunette")
      */
-    public function produit() {
+    public function produits_pour_panier() {
         
         $repo = $this->getDoctrine()->getRepository(Produit::class);
         $produits = $repo->findAllQuantityIsNotNull();
@@ -163,9 +163,9 @@ class ProductController extends Controller {
                
 
             $new_prix = new Prix();
-            $taux_tva        = $request->request->get('appbundle_prix')['tauxTva'];
-            $prix_unitaire  = $request->request->get('appbundle_prix')['prixUnitaire'];
-            $prix_ttc    = ($prix_unitaire) * (1 + ($taux_tva/100) ) ;
+            $taux_tva           = $request->request->get('appbundle_prix')['tauxTva'];
+            $prix_unitaire      = $request->request->get('appbundle_prix')['prixUnitaire'];
+            $prix_ttc           = ($prix_unitaire) * (1 + ($taux_tva/100) ) ;
 
             $new_prix
                     ->setEtat(1)

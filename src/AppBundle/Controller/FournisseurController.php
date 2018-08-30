@@ -42,18 +42,33 @@ class FournisseurController extends Controller {
         $form_fournisseur->handleRequest($request);
 
         if  ( $form_fournisseur->isSubmitted()  && $form_fournisseur->isValid()){
+            $id = ($fournisseur->getId())? $fournisseur->getId() : false;
             if  ($fournisseur->getId()) {
-                $fournisseur->setCreatedAt($fournisseur->getCreateAt());
+                $fournisseur->setCreatedAt($fournisseur->getCreatedAt());
             }   else    {
                 $fournisseur->setCreatedAt(new \DateTime());
             }
             $manager->persist($fournisseur);
             $manager->flush();
+            if ($id == false) {
+                $this->addFlash(
+                    'notice',
+                    'Le fournisseur est bien enregistré!'
+                );
+            } else {
+                $this->addFlash(
+                    'notice',
+                    'Le fournisseur est bien modifié!'
+                );
+            }
             if  (!is_null($fournisseur->getId())) {
                 return $this->redirectToRoute('voir_fournisseur',['id'=>$fournisseur->getId()]);
             }
+            
         }
         $id = ($fournisseur->getId())? $fournisseur->getId() : false;
+
+       
 
         return $this->render('fournisseur/admin/form.html.twig',[
             'form_fournisseur'  =>  $form_fournisseur->createView(),

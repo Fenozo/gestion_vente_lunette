@@ -39,23 +39,23 @@ class Commande
     /**
      * @var string
      *
-     * @ORM\Column(name="quantite", type="decimal", precision=10, scale=0, nullable=true)
-     */
-    public $quantite;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="prixTotal", type="decimal", precision=10, scale=0)
      */
     private $prixTotal;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="taux_tva", type="decimal", precision=10, scale=0, nullable=true)
+     * @ORM\Column(name="createdAt", type="datetime")
      */
-    private $tauxTva;
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updatedAt", type="datetime")
+     */
+    private $updatedAt;
 
     /**
      * @var int
@@ -81,20 +81,6 @@ class Commande
     private $facture;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="createdAt", type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="updatedAt", type="datetime", nullable=true)
-     */
-    private $updatedAt;
-
-    /**
      * Get id
      *
      * @return int
@@ -103,40 +89,6 @@ class Commande
     {
         return $this->id;
     }
-
-    /**
-     * Set tauxTva
-     *
-     * @param string $tauxTva
-     *
-     * @return Prix
-     */
-    public function setTauxTva($tauxTva)
-    {
-        $this->tauxTva = $tauxTva;
-
-        return $this;
-    }
-
-    /**
-     * Get tauxTva
-     *
-     * @return string
-     */
-    public function getTauxTva()
-    {
-        return $this->tauxTva;
-    }
-    
-    public function setQuantite($quantite) {
-        $this->quantite = $quantite;
-        return $this;
-    }
-
-    public function getQuantite() {
-        return $this->quantite;
-    }
-
 
     /**
      * Set prixTotal
@@ -280,53 +232,5 @@ class Commande
     public function getFacture()
     {
         return $this->facture;
-    }
-
-    /**
-     * Set prixUnitaire
-     *
-     * @param string $prixUnitaire
-     *
-     * @return Commande
-     */
-    public function setPrixUnitaire($prixUnitaire)
-    {
-        $this->prixUnitaire = $prixUnitaire;
-
-        return $this;
-    }
-
-    /**
-     * Get prixUnitaire
-     *
-     * @return string
-     */
-    public function getPrixUnitaire()
-    {
-        return $this->prixUnitaire;
-    }
-
-    /**
-     * Set prixUnitaireTtc
-     *
-     * @param string $prixUnitaireTtc
-     *
-     * @return Commande
-     */
-    public function setPrixUnitaireTtc($prixUnitaireTtc)
-    {
-        $this->prixUnitaireTtc = $prixUnitaireTtc;
-
-        return $this;
-    }
-
-    /**
-     * Get prixUnitaireTtc
-     *
-     * @return string
-     */
-    public function getPrixUnitaireTtc()
-    {
-        return $this->prixUnitaireTtc;
     }
 }
