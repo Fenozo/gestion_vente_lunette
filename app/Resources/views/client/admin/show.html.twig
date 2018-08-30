@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container" style="min-height:450px;margin-top:200px;">
+    <div class='col-md-12'>
+        <h1>Détails du client</h1>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ client.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ client.userinfos.name }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ client.userinfos.prename }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ client.userinfos.adress }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ client.email }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ client.userinfos.phone }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class='col-md-12'>
+    <hr>
+    <h2>Les commandes lié à Mr <span style="color:blue;">{{ client.userinfos.name }}</span></h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titre</th>
+                <th>Genre</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ID</td>
+                <td>Titre</td>
+                <td>Genre</td>
+                <td>Type</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+    
+</div>
+
+{% endblock %}

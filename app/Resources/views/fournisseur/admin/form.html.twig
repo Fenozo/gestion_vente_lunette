@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container" style="min-height:450px;margin-top:200px;">
+    {% form_theme form_fournisseur 'bootstrap_4_layout.html.twig' %}
+
+    <div class="col-md-12">
+        {{ form_start(form_fournisseur) }}
+        {{ form_widget(form_fournisseur) }}
+        {% if modifier == true %}
+            <button class="btn btn-success">Modifier</button>
+            {% else %}
+            <button class="btn btn-success">Enregister</button>
+        {% endif %}
+        
+        
+        {{ form_end(form_fournisseur) }}
+    </div>
+</div>
+
+{% endblock %}

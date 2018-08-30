@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container" style="min-height:450px;margin-top:200px;">
+    <div class="col-md-12">
+        <h1 style="font-size:40px;">La liste des différentes de fournisseur</h1>
+        <hr>
+    </div>
+    <div class="col-md-12">
+        <div style="margin-bottom:12px;">
+            <a href="{{ path('ajouter_fournisseur') }}" class="btn btn-primary" > Nouveau </a>
+        </div>
+    </div>
+
+        <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Marque</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for fournisseur in fournisseurs %}
+                <tr>
+                    <td>{{ fournisseur.id }}</td>
+                    <td>{{ fournisseur.nom }}</td>
+                    <th>{{ fournisseur.marque }}</th>
+                    <th>{{ fournisseur.description }}</th>
+
+                    <td>
+                    {% if is_admin() == 3 %}
+                        <a href=" {{ path('voir_fournisseur',{'id':fournisseur.id}) }} " class="btn btn-default" >Voir</a>
+                        <a href=" {{ path('modifier_fournisseur',{'id':fournisseur.id}) }} " class="btn btn-success" >Modifier</a>
+                        <a href=" {{ path('product_delete',{'id':fournisseur.id}) }} " class="btn btn-danger" onclick="return confirm('Voulez-vous supprimer ce fournisseur ?')">Supprimer</a></td>
+                    {% else %}
+
+                    {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

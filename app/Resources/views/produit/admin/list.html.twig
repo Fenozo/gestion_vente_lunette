@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container" style="min-height:450px;margin-top:200px;">
+    <h1>Liste des produits</h1>
+    
+    <div class="col-md-12">
+        <div style="margin-bottom:12px;">
+            <a href="{{ path('ajouter_produit') }}" class="btn btn-primary" > Nouveau </a>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Titre</th>
+                    <th>Prix</th>
+                    <th>Genre</th>
+                    <th>Type</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for produit in produits %}
+                {% if produit.genre == 1 %}
+                    {% set genre = 'men' %}
+                {% elseif produit.genre == 2 %}
+                    {% set genre = 'women' %}
+                {% elseif produit.genre == 3 %}
+                    {% set genre = 'mixtes' %}
+                {% elseif produit.genre == 4 %}
+                    {% set genre = 'children' %}
+                {% endif %}
+                <tr>
+                    <td>{{ produit.id }}</td>
+                    <td>{{ produit.titre }}</td>
+                    <td>{{ show_prix(produit).prixunitaire |number_format(2, '.', ',') }}</td>
+                    
+                    <th>{{ type_lunette(produit.type) }}</th>
+                    <td>{{ genre }}</td>
+                    <td>
+                    {% if is_admin() == 3 %}
+                        <a href=" {{ path('voir_produit',{'id':produit.id}) }} " class="btn btn-default" >Voir</a>
+                        <a href=" {{ path('modifier_produit',{'id':produit.id}) }} " class="btn btn-success" >Modifier</a>
+                        <a href=" {{ path('product_delete',{'id':produit.id}) }} " class="btn btn-danger" onclick="return confirm('Voulez-vous supprimer ce produit ?')">Supprimer</a></td>
+                    {% else %}
+
+                    {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+{% endblock %}

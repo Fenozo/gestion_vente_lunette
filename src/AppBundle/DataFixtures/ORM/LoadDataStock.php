@@ -1,0 +1,241 @@
+<?php
+// src/AppBundle/DataFixtures/ORM/LoadFixtures.php
+namespace AppBundle\DataFixtures\ORM;
+
+use AppBundle\Entity\Produit;
+use AppBundle\Entity\Stock;
+use AppBundle\Entity\Mouvement;
+use AppBundle\Entity\Prix;
+
+use Faker\Factory;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+class LoadDataStock implements ORMFixtureInterface ,OrderedFixtureInterface, ContainerAwareInterface
+{
+
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+    public function load(ObjectManager $manager)
+    {
+        /**
+         * - Un produit est constitué de : 
+         *  titre,
+         *  description,
+         *  Quantité en Stock, 
+         *  marque,
+         *  Prix ttc,
+         *  types (1:soleil, 2:vue, 3:sport), 
+         *  genre (1:homme, 2:femme, 3:mixte, 4:enfant)
+         */
+
+        $repository_prod   =   $this->getDoctrine()->getRepository(Produit::class);
+        $repository_prix   =   $this->getDoctrine()->getRepository(Prix::class);
+
+        $produis = $repository_prod->findAll();
+        $produit_list   = [];
+        $quantite       = [];
+        $prix           = [];
+        $total          = 0;
+        foreach ($produis as $produit) {
+            $rand =  mt_rand(1,4);
+            if ($rand % 2 == 0) {
+                $produit
+                ->setQuantite($rand - 1);
+
+                $produit_list[$produit->getId()]    =   $produit;
+
+                $prix[$produit->getId()]            =   $repository_prix->findOneBy(['produit_id' => $produit->getId()]);
+
+                $quantite[$produit->getId()]        =   mt_rand(1,4);
+                $total                              +=  $quantite[$produit->getId()];
+            }
+        }
+        $stock = (new Stock())
+                ->setQuantite($total)
+                ->setCreatedAt(new \DateTime())
+                ->setType(1)
+                ->setEtat(1);
+        $manager->persist($stock);
+        $manager->flush();
+
+        foreach($produit_list as $produit_id => $prod ) {
+            if ( $prix[$produit_id]  instanceof Prix) {
+                $mouvements = (new Mouvement())
+                ->setQuantite($quantite[$produit_id])
+                ->setPrixUnitaire($prix[$produit_id]->getPrixUnitaire())
+                ->setPrixTtc($prix[$produit_id]->getPrixUnitaireTtc())
+                ->setPrixTotal(($prix[$produit_id]->getPrixUnitaireTtc() *  intval($quantite[$produit_id])))
+                ->setTva($prix[$produit_id]->getTauxTva())
+                ->setType(1)
+                ->setEtat(1)
+                ->setProduit( $prod )
+                ->setStock( $stock ) ;
+
+            $manager->persist($mouvements);
+            }
+           
+        }
+        $manager->flush();
+       
+    }
+
+    public function getOrder()
+    {
+        // the order in which fixtures will be loaded
+        // the lower the number, the sooner that this fixture is loaded
+        return 3;
+    }
+
+    public function getDoctrine()
+    {
+        return $this->container->get('doctrine');
+    }
+
+    //assets/coloShop/images
+    public static function load_product() {
+        return [
+            [
+                'url'   =>  'mixte_product_4.jpg',
+                'genre' =>  3,
+                'name'  =>  'Pryma Headphones, Rose Gold & Grey',
+                'prix'  =>  '180.00',
+                'desc'  =>  'Description',
+                'type'  =>  1
+            ],
+            [
+                'url'   =>  'mixte_product_3.jpg',
+                'genre' =>  3,
+                'name'  =>  'Pryma Headphones, Rose Gold & Grey',
+                'prix'  =>  '180.00',
+                'desc'  =>  'Description',
+                'type'  =>  1
+            ],
+            [
+                'url'   =>  'mixte_product_2.jpg',
+                'genre' =>  3,
+                'name'  =>  'Pryma Headphones, Rose Gold & Grey',
+                'prix'  =>  '180.00',
+                'desc'  =>  'Description',
+                'type'  =>  1
+            ],
+            [  
+                'url'   =>  'mixte_product_1.jpg',
+                'genre' =>  3,
+                'name'  =>  'Pryma Headphones, Rose Gold & Grey',
+                'prix'  =>  '180.00',
+                'desc'  =>  'Description',
+                'type'  =>  1
+            ]
+            ,
+            [  
+                'url'   =>  'mixte_product_1.jpg',
+                'genre' =>  3,
+                'name'  =>  'Pryma Headphones, Rose Gold & Grey',
+                'prix'  =>  '180.00',
+                'desc'  =>  'Description',
+                'type'  =>  1
+            ],
+            [  
+                'url'   =>  'men_product_6.png',
+                'genre' =>  1,
+                'name'  =>  'Pryma Headphones, Rose Gold & Grey',
+                'prix'  =>  '180.00',
+                'desc'  =>  'Description',
+                'type'  =>  1
+            ],
+            [  
+                'url'   =>  'women_product_10.jpeg',
+                'genre' =>  2,
+                'name'  =>  'Pryma Headphones, Rose Gold & Grey',
+                'prix'  =>  '180.00',
+                'desc'  =>  'Description',
+                'type'  =>  1
+            ],
+            [  
+                'url'   =>  'children_product_9.jpg',
+                'genre' =>  4,
+                'name'  =>  'DYMO LabelWriter 450 Turbo Thermal Label Printer',
+                'prix'  =>  '410.00',
+                'desc'  =>  'Description',
+                'type'  =>  1
+            ],
+            [  
+                'url'   =>  'children_product_8.jpg',
+                'genre' =>  4,
+                'name'  =>  'Blue Yeti USB Microphone Blackout Edition',
+                'prix'  =>  '120.00',
+                'desc'  =>  'Description',
+                'type'  =>  1
+            ],
+            [  
+                'url'   =>  'product_7.png',
+                'genre' =>  2,
+                'name'  =>  'Ray Ban',
+                'prix'  =>  '610.00',
+                'desc'  =>  'Description',
+                'type'  =>  1
+            ],
+            [  
+                'url'   =>  'women_product_1.jpg',
+                'genre' =>  2,
+                'name'  =>  'Ray Ban',
+                'prix'  =>  '610.00',
+                'desc'  =>  'Description',
+                'type'  =>  1
+            ],
+            [  
+                'url'   =>  'product_5.jpg',
+                'genre' =>  2,
+                'name'  =>  'Lunette à monture simple',
+                'prix'  =>  '310.00',
+                'desc'  =>  'Description',
+                'type'  =>  2
+            ],
+            [  
+                'url'   =>  'product_1.jpg',
+                'genre' =>  1,
+                'name'  =>  'Ray Ban',
+                'prix'  =>  '310.00',
+                'desc'  =>  'Description',
+                'type'  =>  1
+            ],
+            [  
+                'url'   =>  'product_2.jpg',
+                'genre' =>  2,
+                'name'  =>  'Ray Ban',
+                'prix'  =>  '310.00',
+                'desc'  =>  'Description',
+                'type'  =>  1
+            ],
+            [  
+                'url'   =>  'product_3.jpg',
+                'genre' =>  1,
+                'name'  =>  'Lunette simple',
+                'prix'  =>  '120.00',
+                'desc'  =>  'Description',
+                'type'  =>  2
+            ],
+            [  
+                'url'   =>  'women_product_4.jpg',
+                'genre' =>  2,
+                'name'  =>  'Lunette simple',
+                'prix'  =>  '120.00',
+                'desc'  =>  'Description',
+                'type'  =>  2
+            ]
+
+            
+        ];
+    }
+}

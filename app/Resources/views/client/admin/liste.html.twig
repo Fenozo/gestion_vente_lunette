@@ -1,0 +1,33 @@
+{% extends 'base.html.twig'  %}
+{% block body %}
+<div class="container" style="min-height:450px;margin-top:200px;">
+    <div class='col-md-12'>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>email</th>
+                    <th>Téléphone</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for client in clients %}
+                <tr>
+                    <td>{{ client.id }}</td>
+                    <td>{{ client.userinfos.name }}</td>
+                    <td>{{ client.userinfos.prename }}</td>
+                    <td>{{ client.email }}</td>
+                    <td>{{ client.userinfos.phone }}</td>
+                    <th>
+                    <a class="btn btn-primary" href="{{ path('client_details',{'id':client.id}) }}">Voir</a>
+                    </th>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

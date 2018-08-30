@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container" style="min-height:450px;margin-top:200px;">
+    <h1>Produit</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ produit.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ produit.titre }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td><img width= "435px" src="{{asset( urls_images ~ "/" ~ produit.image)}}" alt=""></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ produit.description }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>
+                {{ show_prix(produit).prixunitaire |number_format(2, '.', ',') }}
+                
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ produit.type }}</td>
+            </tr>
+            <tr>
+                <th>Genre</th>
+                <td>{{ produit.genre }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('produit_liste') }}">Retour à la liste des produis</a>
+        </li>
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+<div class="container" style="min-height:450px;margin-top:200px;">
+    <div class="col-md-12">
+        <h1 style="font-size:40px;">La liste des différentes stock qui sont été ajoutés</h1>
+        <hr>
+    </div>
+        
+    <div class="col-md-12">
+        <div style="margin-bottom:12px;">
+            <a href="{{ path('stock_enter') }}" class="btn btn-primary" > Entrer </a>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Type de stock</th>
+                    <th>Nombres total entrant ou sortant</th>
+                    <th>Date de stock</th>
+                    <th>Détails</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for stock in stocks %}
+                <tr>
+                    <td> {{ stock.id }} </td>
+                    <td>
+                    {% if stock.type == 1  %}
+                        Entrer
+                        {% else %}
+                        Sorti
+                    {% endif %}
+                    </td>
+                    <td>{{ stock.quantite }}</td>
+                    <td>{{ stock.createdAt | date('Y-m-d') }}</td>
+                    <td><a href="{{ path('voir_stock',{'id':stock.id}) }}" class="btn btn-success">Voir</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

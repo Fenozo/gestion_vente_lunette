@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <style>
+        .remove_stock {
+            border:2px solid #d1b8bc !important;
+            background: red;
+            cursor:pointer;
+        }
+        .quantite_stock {
+            text-align: center;
+            margin-right: 12px;
+            width: 45px;
+        }
+        /*************************************/
+        #liste_produits ul li {
+            border: 1px solid;
+            padding: 13px 11px;
+            margin: 2px;
+            width: 192px;
+            float: left;
+            height: 179px;
+        }
+        
+    </style>
+{% endblock %}
+{% block body %}
+
+
+<div class="container" style="min-height:350px;margin-top:200px;">
+    <div class="col-md-12">
+        <h1 style="font-size:40px;">Entre de stock</h1>
+        <hr>
+    </div>
+
+    <div class="row" >
+        <div class="col-md-6" style="max-height:450px;overflow:auto;">
+            <div id="liste_produits">
+
+            </div>
+        </div>
+        <div class="col-md-6" style="max-height:450px;overflow:auto;">
+            <form action=" {{ path('sauvegarder_stock') }} "  method="POST">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>id</td>
+                        <td>Titre</td>
+                    </tr>
+                </thead>
+                
+                    <tbody id="nouveau_stock" style="max-height:350px;overflow:auto;">
+                    </tbody>
+                
+            </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+ <style>
+
+</style>
+{% endblock %}
+{% block javascripts %}
+{#var ur = "{{ path('api_show_produit',{'id':"+elem.id+"}) }}";#}
+    <script>
+    Produits = [];
+
+    var url_produits = "{{ path('api_produits') }}";
+     $.get(url_produits,{},function(P){
+         
+         $.each(P,function(index,elem){
+            var Produit = {
+                    id        :   null,
+                    titre    :   null,
+                    genre     :   null,
+                    prix      :   null,
+                    quantite  :   null,
+                    setQuantite : function(q) {
+                        this.quantite = q;
+                    }
+                };
+                Produit.id          = elem.id;
+                Produit.titre       = elem.titre;
+                Produit.prix        = elem.prix;
+                Produit.genre       = elem.genre;
+                Produit.setQuantite(1);
+
+             Produits.push(Produit);
+            $('#liste_produits').append('<ul></ul>');
+            $('#liste_produits ul').append('<li class="produit_'+elem.id+'"><div><em>'+elem.id+'</em></div><div>'+elem.titre+'</div><div><button id="'+elem.id+'" style="cursor:pointer;"  onClick="func(this.id)" class="btn btn-default addToStock" >+</button></div></li>');
+         });
+        
+     },'json');
+
+
+    function func(id){
+        var self = this;
+        $.each(Produits,function(index,elem){
+
+        if (elem.id == id)
+                { 
+                    push(elem);
+                    select_stock();
+                    $('.produit_'+elem.id).css({'background':'#ccc'});
+
+                }
+        });
+       
+    }
+
+        var stock_produit = [];
+        
+        function removeStock(id){
+            $('.produit_'+id).css({'background':'#fff'});
+            deleteInArray(stock_produit,'id',id);
+            select_stock();
+        }
+        function deleteInArray(array,keyObject,id){
+            array.forEach(function(element){
+                if  (element[keyObject] == id)  {
+                    array.splice(array.indexOf(element),1);
+                }
+            });
+        }
+        function select_stock() {
+            var value = 1;
+            $('#nouveau_stock').find('tr').remove();
+            stock_produit.forEach(function(elem,index){
+                $('#nouveau_stock').append('<tr><td>'+elem.id+'</td><td>'+elem.titre+'</td><td><div style="width:93px;"><input class="input_stock_'+elem.id+' quantite_stock" type="text" onkeyUp="change_quantite('+elem.id+')" name="ligne[stock]['+elem.id+']" value="'+elem.quantite+'" ><div  class="btn remove_stock" id="'+elem.id+'" onclick="removeStock(this.id)" >-</div></div></td></tr>');
+            });
+            if  (stock_produit.length > 0) {
+                $('#nouveau_stock').append('<tr><td colspan="3"><button class="btn btn-success" >Enregistrer</button></td></tr>');
+            }
+        }
+        function push(data) {
+            i = 0;
+            stock_produit.forEach(function(elem){
+                if  (elem.hasOwnProperty('id'))  {
+                    if  (elem.id == data.id)    {
+                        i++;
+                    }
+                }
+            });
+            if  (i == 0) {
+                stock_produit.push(data);
+            } else {
+                alert('Ceci est déjà ajouter dans la liste de nouveau stock!')
+            }
+        }
+        function change_quantite(id) {
+            stock_produit.forEach(function(elem){
+                if(id == elem.id) { elem.setQuantite($('.input_stock_'+id).val()); }
+            });
+        }
+    
+    </script>
+
+{% endblock %}

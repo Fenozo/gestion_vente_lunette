@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container" style="min-height:450px;margin-top:200px;">
+    <div class="col-md-12">
+        <h1 style="font-size:40px;">Le détail du stock de type 
+            <em style="color:green">
+                {% if stock.type == 1  %}
+                    Entrer
+                    {% else %}
+                        Sorti
+                {% endif %}
+            </em>
+            <em>{{ stock.quantite }}</em>
+            {% if stock.type > 1  %}
+                Entrants
+                {% else %}
+                    Entrant
+            {% endif %}
+        </h1>
+        <hr>
+    </div>
+    <div class="col-md-12">
+        <div style="margin-bottom:12px;">
+            <a href="{{ path('stock_liste') }}" class="btn btn-primary" > Retour à  la liste </a>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Produit</th>
+                    <th>nombre de stock courant</th>
+                    <th>nombre de stock entrant</th>
+                    <th>Prix Total</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for mouvement in stock.mouvements %}
+                <tr>
+                    <td>{{ mouvement.id }} </td>
+                    <td>{{ mouvement.produit.titre }} </td>
+                    <td>{{ mouvement.produit.quantite }} </td>
+                    <td>{{ mouvement.quantite }}</td>
+                    <td>{{ mouvement.prixtotal }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container" style="min-height:450px;margin-top:200px;">
+
+    <!-- New Arrivals -->
+
+	<div class="new_arrivals">
+		<div class="container">
+			<div class="row">
+				<div class="col text-center">
+					<div class="section_title new_arrivals_title">
+						<h2>Produits</h2>
+					</div>
+				</div>
+			</div>
+			<div class="row align-items-center">
+				<div class="col text-center">
+					<div class="new_arrivals_sorting">
+						<ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked" data-filter="*">all</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".women">Pour femmes</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".children">Pour enfants</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".men">Pour Hommes</li>
+                            <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".mixtes">Mixtes</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>
+
+                        {% for produit in produits %}
+                        
+                            {% if produit.genre == 1 %}
+                                {% set genre = 'men' %}
+                            {% elseif produit.genre == 2 %}
+                                {% set genre = 'women' %}
+                            {% elseif produit.genre == 3 %}
+                                {% set genre = 'mixtes' %}
+                            {% elseif produit.genre == 4 %}
+                                {% set genre = 'children' %}
+                            {% endif %}
+						<div class="product-item {{ genre }}">
+							<div class="product product_filter">
+								<div class="product_image">
+                                    <img src="{{asset( urls_images ~ "/" ~ produit.image)}}" alt="">
+								</div>
+								<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
+								<div class="favorite favorite_left"></div>
+								<div class="product_info">
+									<h6 class="product_name"><a href="single.html">{{ produit.titre }}</a></h6>
+									
+									<div class="product_price">
+										{{ show_prix(produit).prixunitaire |number_format(2, '.', ',') }}
+									</div>
+								</div>
+							</div>
+							{% if access == 3 %}
+							<div class="red_button add_to_cart_button"><a href="{{ url('panier_add',{id:produit.id}) }}" class="addPanier">add to cart</a></div>
+								{% else %}
+                
+            				{% endif %}
+						</div>
+
+                        {% endfor %}
+   
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+{% endblock %}
+{% block javascripts %}
+<script>
+	(function($){
+		$('.addPanier').on('click',function(event) {
+			event.preventDefault();
+			$.get($(this).attr('href'),{},function(data){
+				
+				if	(data.error){
+					alert(data.message);
+				}   else {
+					$('.panier_total').html(data.total);
+					$('.panier_count').html(data.count);
+					if(confirm(data.message+ '. Voulez-vous consultez votre panier ?')) {
+						window.location.href = "{{ path('panier') }}";
+					} else {
+						//window.location.href = "{{ path('produit_lunette') }}";
+					}
+				}
+			},'json');
+		});
+	})(jQuery);
+</script>
+{% endblock %}
