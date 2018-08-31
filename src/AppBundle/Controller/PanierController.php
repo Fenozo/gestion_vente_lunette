@@ -44,7 +44,7 @@ class PanierController extends Controller{
                     ->setGenre($panier->getGenre())
                     ->setType($panier->getType());
                 $produit->setQuantite($_SESSION['panier'][$panier->getId()]);
-                dump($produit);
+               
                 $produits[] = $produit;
             }
         }
@@ -103,7 +103,9 @@ class PanierController extends Controller{
                 $json['panier_id']  =   $_GET['panier_id'];
                 $json['quantite']   =   $_GET['quantite'];
                 $valider            =   $panier->update($json['panier_id'],$json['quantite'] );
-                $json['total']      =   $panier->total();
+                $total              =   $panier->total();
+                $total              =   $panier->getTotalTtc();
+                $json['total']      =   $total;
                 $json['count']      =   $panier->count();
                 $json['message']    =   'La quantité a bien été modifié! ';
             }
