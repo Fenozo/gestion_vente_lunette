@@ -50,14 +50,15 @@ class LoadDataStock implements ORMFixtureInterface ,OrderedFixtureInterface, Con
         foreach ($produis as $produit) {
             $rand =  mt_rand(1,4);
             if ($rand % 2 == 0) {
+                $qte = $rand - 1;
                 $produit
-                ->setQuantite($rand - 1);
+                ->setQuantite($qte);
 
                 $produit_list[$produit->getId()]    =   $produit;
 
                 $prix[$produit->getId()]            =   $repository_prix->findOneBy(['produit_id' => $produit->getId()]);
 
-                $quantite[$produit->getId()]        =   mt_rand(1,4);
+                $quantite[$produit->getId()]        =   $qte;
                 $total                              +=  $quantite[$produit->getId()];
             }
         }
@@ -75,7 +76,7 @@ class LoadDataStock implements ORMFixtureInterface ,OrderedFixtureInterface, Con
                 ->setQuantite($quantite[$produit_id])
                 ->setPrixUnitaire($prix[$produit_id]->getPrixUnitaire())
                 ->setPrixTtc($prix[$produit_id]->getPrixUnitaireTtc())
-                ->setPrixTotal(($prix[$produit_id]->getPrixUnitaireTtc() *  intval($quantite[$produit_id])))
+                ->setPrixTotal(($prix[$produit_id]->getPrixUnitaireTtc() *  intval($quantite[$produit_id]) ))
                 ->setTva($prix[$produit_id]->getTauxTva())
                 ->setType(1)
                 ->setEtat(1)

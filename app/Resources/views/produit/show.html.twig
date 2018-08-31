@@ -37,6 +37,17 @@
                 <th>Genre</th>
                 <td>{{ produit.genre }}</td>
             </tr>
+            <tr>
+                <th>Quantité</th>
+                <td>
+                    {% if produit.quantite == "" %}
+                        <em style="color:red">0</em>
+                    {% else %}
+                        {{ produit.quantite }}
+                    {% endif %}
+                </td>
+            </tr>
+
         </tbody>
     </table>
 

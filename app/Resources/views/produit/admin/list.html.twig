@@ -17,6 +17,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Titre</th>
+                    <th>Quantité</th>
                     <th>Prix</th>
                     <th>Genre</th>
                     <th>Type</th>
@@ -37,6 +38,13 @@
                 <tr>
                     <td>{{ produit.id }}</td>
                     <td>{{ produit.titre }}</td>
+                    <td>
+                        {% if produit.quantite == "" %}
+                            <em style="color:red">0</em>
+                        {% else %}
+                            {{ produit.quantite }}
+                        {% endif %}
+                    </td>
                     <td>{{ show_prix(produit).prixunitaire |number_format(2, '.', ',') }}</td>
                     
                     <th>{{ type_lunette(produit.type) }}</th>

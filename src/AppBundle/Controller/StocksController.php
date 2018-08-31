@@ -3,6 +3,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Stock;
 use AppBundle\Entity\Produit;
 use AppBundle\Entity\Mouvement;
+use AppBundle\Entity\Prix;
 
 use AppBundle\Form\ProduitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,9 +38,12 @@ class StocksController extends Controller {
         $repository_produit             =   $this->Repository(Produit::class);
         $repository_stock               =   $this->Repository(Stock::class);
         $repository_mouvement           =   $this->Repository(Mouvement::class);
+        $repository_prix                =   $this->Repository(Prix::class);
         $tva = 0;
         $quantite_total = 0;
-        $produits = [];
+        $produits   = [];
+        $quantite   = [];
+        $prix       = [];
 
         /**
          * Formule : [Montant HT] x (1 + ([Taux TVA] / 100)) = [Montant TTC] 
@@ -48,14 +52,14 @@ class StocksController extends Controller {
         if  (isset($_POST['ligne']['stock']))  {
             if  (count($_POST['ligne']['stock'])> 0) {
 
-                dump($_POST['ligne']['stock']);
-                exit();
                 foreach($_POST['ligne']['stock'] as $produit_id => $nb ) {
                     $prod = $repository_produit->find($produit_id);
                     if (  $prod != null  ) {
                         $prod->setQuantite($prod->getQuantite() + intval($nb));
-                        $produits[$produit_id] = $prod;
-                        $quantite_total += intval($nb);
+                        $produits[$produit_id]              =  $prod;
+                        $quantite_total                    +=  intval($nb);
+                        $quantite[$prod->getId()]           =  intval($nb);
+                        $prix[$produit_id]                  =  $repository_prix->findOneBy(['produit_id' =>  $produit_id ]);
                     }
                 }
 
@@ -70,20 +74,23 @@ class StocksController extends Controller {
                 
 
                 foreach($_POST['ligne']['stock'] as $produit_id => $nb ) {
-                    
-                    if (isset($produits[$produit_id])) {
-                        $prod = $produits[$produit_id];
-                        
-                        $mouvements = (new Mouvement())
-                            ->setQuantite($nb)
-                            ->setPrixUnitaire($prod->getPrix())
-                            ->setPrixTotal(($prod->getPrix() *  intval($nb)))
-                            ->setTva($tva)
-                            ->setType(1)
-                            ->setEtat(1)
-                            ->setProduit( $prod )
-                            ->setStock( $stock ) ;
-                        $manager->persist($mouvements);
+
+                    if ( $prix[$produit_id]  instanceof Prix) {
+                        if (isset($produits[$produit_id])) {
+                            $prod = $produits[$produit_id];
+                            
+                            $mouvements = (new Mouvement())
+                                ->setQuantite($quantite[$produit_id])
+                                ->setPrixUnitaire($prix[$produit_id]->getPrixUnitaire())
+                                ->setPrixTtc($prix[$produit_id]->getPrixUnitaireTtc())
+                                ->setPrixTotal(($prix[$produit_id]->getPrixUnitaireTtc() *  intval($quantite[$produit_id]) ))
+                                ->setTva($prix[$produit_id]->getTauxTva())
+                                ->setType(1)
+                                ->setEtat(1)
+                                ->setProduit( $prod )
+                                ->setStock( $stock ) ;
+                            $manager->persist($mouvements);
+                        }
                     }
                 }
                 $manager->flush();
