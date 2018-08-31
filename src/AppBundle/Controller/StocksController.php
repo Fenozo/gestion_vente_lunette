@@ -19,8 +19,8 @@ class StocksController extends Controller {
      * @Route("admin/stocks/list", name="stock_liste")
      */
     public function index() {
-        $repo_stock         =   $this->getDoctrine()->getRepository(Stock::class);
-        $stocks = $repo_stock->findAll();
+        $repository_stock         =   $this->getDoctrine()->getRepository(Stock::class);
+        $stocks = $repository_stock->findAll();
         
         return $this->render('stock/admin/index.html.twig',[
             'stocks'    =>  $stocks
@@ -34,9 +34,9 @@ class StocksController extends Controller {
      * @Route("admin/stocks/enter", name="sauvegarder_stock")
      */
     public function entrer(ObjectManager $manager) {
-        $repo_prod          =   $this->Repository(Produit::class);
-        $repo_stock         =   $this->Repository(Stock::class);
-        $mouvement          =   $this->Repository(Mouvement::class);
+        $repository_produit             =   $this->Repository(Produit::class);
+        $repository_stock               =   $this->Repository(Stock::class);
+        $repository_mouvement           =   $this->Repository(Mouvement::class);
         $tva = 0;
         $quantite_total = 0;
         $produits = [];
@@ -48,8 +48,10 @@ class StocksController extends Controller {
         if  (isset($_POST['ligne']['stock']))  {
             if  (count($_POST['ligne']['stock'])> 0) {
 
+                dump($_POST['ligne']['stock']);
+                exit();
                 foreach($_POST['ligne']['stock'] as $produit_id => $nb ) {
-                    $prod = $repo_prod->find($produit_id);
+                    $prod = $repository_produit->find($produit_id);
                     if (  $prod != null  ) {
                         $prod->setQuantite($prod->getQuantite() + intval($nb));
                         $produits[$produit_id] = $prod;
@@ -90,7 +92,7 @@ class StocksController extends Controller {
             return $this->redirectToRoute('stock_liste');
         }
 
-        $produits = $repo_prod->findAll();
+        $produits = $repository_produit->findAll();
 
         $stocks     =   [];
         return $this->render('stock/admin/create.html.twig',[
