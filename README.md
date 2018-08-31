@@ -13,6 +13,8 @@ composer install
 
 php bin/console server:run
 
+php bin/console doctrine:database:create --if-not-exists
+
 php bin/console doctrine:schema:update --force
 
 php bin/console doctrine:fixtures:load
@@ -20,6 +22,7 @@ php bin/console doctrine:fixtures:load
 Après avoir lancer ces différentes commandes vous pouvez maintenant se connécter avec :
 
 -Pour les administrateur 
+
 email           : 960gd7@gmail.com
 mot de passe    : admin771
 
@@ -27,6 +30,7 @@ email           : jrnvrs2@gmail.com
 mot de passe    : admin121
 
 -Pour les clients
+
 email           : jrnvrs1@gmail.com
 mot de passe    : client1
 
