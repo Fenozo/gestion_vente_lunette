@@ -29,20 +29,6 @@ class Facture
     private $prixTotal;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="createdAt", type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="updatedAt", type="datetime", nullable=true)
-     */
-    private $updatedAt;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="numero_facture", type="string", length=12)
@@ -80,6 +66,28 @@ class Facture
      * @var [type]
      */
     private $user;
+
+    /**
+     * 
+     * @var string etat == 2 Términer
+     * 
+     * @ORM\Column(name="etat", type="integer",  nullable=true)
+     */
+    private $etat;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdAt", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updatedAt", type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     /**
      * Get id
@@ -322,5 +330,29 @@ class Facture
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set etat
+     *
+     * @param integer $etat
+     *
+     * @return Facture
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return integer
+     */
+    public function getEtat()
+    {
+        return $this->etat;
     }
 }
