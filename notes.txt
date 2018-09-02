@@ -1,0 +1,8 @@
+
+#Expériences sur le développement de symfony3.4.6
+->Réglage du problème de: You have requested a non-existent parameter "templating.engines". 
+=>Réponse ci-dessous:
+framework:
+    templating:
+        engines: ['twig']
+        
