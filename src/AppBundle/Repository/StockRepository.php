@@ -10,7 +10,7 @@ namespace AppBundle\Repository;
  */
 class StockRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findLastStockOrderByDate()
+    public function findLastStockOrderByDate($type,$etat)
     {
         // automatically knows to select Products
         // the "p" is an alias you'll use in the rest of the query
@@ -20,10 +20,11 @@ class StockRepository extends \Doctrine\ORM\EntityRepository
             'SELECT s
             FROM AppBundle\Entity\Stock s
             WHERE s.type = :types
-            AND s.etat = 1
+            AND s.etat = :etat
             ORDER BY s.createdAt DESC
             '
-        )->setParameter('types', [1]);
+        )->setParameter('types', $type)
+         ->setParameter('etat',  $etat);
 
         // returns an array of Product objects
         return $query->execute();

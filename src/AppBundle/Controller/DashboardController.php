@@ -1,15 +1,18 @@
 <?php
 
 namespace AppBundle\Controller;
-use AppBundle\Entity\Produit;
+use AppBundle\Engine\Dates;
 use AppBundle\Entity\Stock;
 
-use Symfony\Component\HttpFoundation\Session\Session;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\Facture;
+use AppBundle\Entity\Produit;
+use Nelmio\Alice\support\models\User;
+use AppBundle\Engine\StatistiqueCommande;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Nelmio\Alice\support\models\User;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class DashboardController extends Controller
 {
@@ -34,22 +37,115 @@ class DashboardController extends Controller
      */
     public function dashboard()
     {
+        $repository_produit     = $this->getDoctrine()->getRepository(Produit::class);
+        $repository_stock       = $this->getDoctrine()->getRepository(Stock::class);
+        $repository_factutre       = $this->getDoctrine()->getRepository(Facture::class);
+        $produits_dispo         = $repository_produit->countAllQuantityIsNotNull();
         
-        $repo_produit       = $this->getDoctrine()->getRepository(Produit::class);
-        $repo_stock         = $this->getDoctrine()->getRepository(Stock::class);
-        $produits_dispo     = $repo_produit->countAllQuantityIsNotNull();
+        $stock_dispo    = 0;
+        $produits       = [];
 
-        $stock_disponible   = 0;
         if (!empty($produits_dispo))  {
-            $stock_disponible = $produits_dispo[0][1];
+            foreach ($produits_dispo  as $prod) {
+                $stock_dispo += $prod->getQuantite();
+                $produits[$prod->getId()] = $prod->getId();
+            }
         }
-        $dernier_stock = $repo_stock->findLastStockOrderByDate();
-        $dernier_stock = (count($dernier_stock)>0) ? $dernier_stock[0] : new Stock();
-        // replace this example code with whatever you need
+
+
+
+        // Enter des produits
+        $dernier_entrer = $repository_stock->findOneBy([
+            'type'  => 1,
+            'etat'  => 1,
+
+        ], array('id' => 'DESC'));
+
+        if (empty($dernier_entrer)) {
+                
+            $dernier_entrer =  new Stock();
+        }
+
+        $entrer_total = 0;
+        $entrer_totals = $repository_stock->findBy([
+            'type'  => 1,
+            'etat'  => 1,
+
+        ], array('id' => 'DESC'));
+
+        foreach($entrer_totals as $entrers) {
+            $entrer_total += $entrers->getQuantite();
+        }
+
+        // Sortie des produits
+        $sortie_courrant = $repository_stock->findOneBy([
+            'type'  => 2,
+            'etat'  => 2,
+            
+        ], array('id' => 'DESC'));
+
+        if (empty($sortie_courrant)) {
+            $sortie_courrant = new Stock();
+        }
+
+        $date1 = $sortie_courrant->getCreatedAt();
+        $date2 = $dernier_entrer->getCreatedAt();
+
+   
+        if (Dates::compare($date1,"<=",$date2)) {
+            $date_stock = $date2;
+        } else {
+            $date_stock = $date1;
+        }
+        
+
+        $sortie_totals = $repository_stock->findBy([
+            'type'  => 2,
+            'etat'  => 2,
+            
+        ], array('id' => 'DESC'));
+
+        $sortie_total = 0;
+
+        if (!empty($sortie_totals)) {
+            foreach($sortie_totals as $sorties ) {
+                $sortie_total  += $sorties->getQuantite();
+            }
+        }
+
+        // Gestion des sorties
+        $sorties = $repository_stock->findBy([
+            'type'  => 2
+
+        ], array('id' => 'DESC'));
+
+        $sorties_invalider = [];
+        $sorties_valider = [];
+        
+        foreach($sorties as $sortie) {
+            if ($sortie->getEtat() == 1) {
+                $sorties_invalider[] = $sortie;
+            } else {
+                $sorties_valider[] = $sortie;
+            }
+        }
+
+        $comm = new StatistiqueCommande();
+        $comm->init($sorties);
+        dump($comm->pourcentage());
+
+        $different_produit_disponible = count($produits);
+
         return $this->render('dashboard/index.html.twig',[
-            'stock_disponible'     =>   $stock_disponible,
-            'dernier_stock'        =>   $dernier_stock,
+            'stock_disponible'      => $stock_dispo,
+            'dernier_entrer'        => $dernier_entrer,
+            'sortie_courrant'       => $sortie_courrant,
+            'entrer_total'          => $entrer_total,
+            'sortie_total'          => $sortie_total,
+            'date_stock'            => $date_stock,
+            'different_produit_disponible'=> $different_produit_disponible,
         ]);
+
     } 
 
     /**

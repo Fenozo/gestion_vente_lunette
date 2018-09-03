@@ -3,7 +3,6 @@
 namespace AppBundle\Controller;
 use AppBundle\Entity\Produit;
 use AppBundle\Entity\Commande;
-use AppBundle\Entity\Lignecommande;
 use AppBundle\Entity\Stock;
 use AppBundle\Entity\Facture;
 
@@ -14,11 +13,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\User;
 
+
 class CommandeController extends Controller
 {
 
-
-
+    
     /**
      *@Route("client/commande/list", name="client_commandes")
      */
@@ -33,6 +32,17 @@ class CommandeController extends Controller
      * @Route("admin/commande/{id}/detail", name="commande_detail")
      */
     public function detail_commande(Facture $commande = null,Request $request) {
+        
+        if  ($request->request->count() > 0) {
+            $id =  $request->request->get('commande')['id'];
+            
+            $traitementStock = new \AppBundle\Engine\TraitementStock(
+                $this->getDoctrine()->getEntityManager()
+            );
+            
+            $traitementStock->get($id);
+        }
+           
         
 
         return $this->render('commande/admin/show.html.twig', [

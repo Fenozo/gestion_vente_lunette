@@ -99,7 +99,6 @@ class ProductController extends Controller {
         }
 
 
-
         if  (is_null($prix)) {
             $prix = new Prix();
         }

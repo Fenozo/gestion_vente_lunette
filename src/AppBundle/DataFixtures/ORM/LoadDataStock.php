@@ -51,8 +51,7 @@ class LoadDataStock implements ORMFixtureInterface ,OrderedFixtureInterface, Con
             $rand =  mt_rand(1,4);
             if ($rand % 2 == 0) {
                 $qte = $rand - 1;
-                $produit
-                ->setQuantite($qte);
+                $produit->setQuantite($qte);
 
                 $produit_list[$produit->getId()]    =   $produit;
 

@@ -46,6 +46,7 @@
                 <tr>
                     <th>numéro de la commande</th>
                     <th>Nombres de commande</th>
+                    <th>Etat </th>
                     <th>Date de commande</th>
                     <th>Nom du client</th>
                     <th>Prénom du client</th>
@@ -55,7 +56,14 @@
             {% for commande in commandes %}
                 <tr>
                     <td> <a href="{{ path('commande_detail',{'id':commande.id}) }}" >{{ commande.numerocommande }}</a> </td>
-                    <td>{{ commande.commandes | length }}</td>
+                    <td>{{ commande.quantite }}</td>
+                    <td>
+                        {% if commande.etat == 2 %} 
+                            <span class="badge badge-success">Fini</span> 
+                        {% else  %}
+                            <span class="badge badge-primary">En cours de traitement</span> 
+                        {% endif %}
+                    </td>
                     <td>{{ commande.createdAt | date('Y-m-d') }}</td>
                     <td>{{ commande.user.userinfos.name }}</td>
                     <td>{{ commande.user.userinfos.prename }}</td>
