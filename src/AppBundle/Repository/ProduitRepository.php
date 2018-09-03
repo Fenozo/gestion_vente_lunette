@@ -36,7 +36,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
-            'SELECT COUNT(p)
+            'SELECT p
             FROM AppBundle\Entity\Produit p
             WHERE p.quantite > 0'
         );

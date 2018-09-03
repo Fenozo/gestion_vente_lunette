@@ -39,9 +39,7 @@ class FactureController extends Controller{
         $voter = $this->container->get("app.voteur");
         
         if  ($voter->isClient() != 3 && $voter->isConnected()) {
-            //dump($request->request);
             return $this->redirectToRoute('commande_detail',['id'=>$commnade->getId()]);
-            // (new Panier())->removeAll();
         }
         $user = new User();
         if ($voter->isConnected()) {
@@ -122,11 +120,12 @@ class FactureController extends Controller{
             ->setNumeroCommande( 'C'.str_pad(($nombre_facture + intval(1)), 4, "0", STR_PAD_LEFT).'/'.date('Y').''.date('m'))
             ->setYears(date('Y'))
             ->setMonth(date('m'))
+            ->setEtat(1)
             ->setCreatedAt(new \Datetime());
 
         $manager->persist($facture);
         $manager->flush();
-
+        $quantite_commande = 0;
         if ($request->request->count() >0) {
 
             if (isset($request->request->get('panier')['quantite']) ) {
@@ -136,11 +135,11 @@ class FactureController extends Controller{
 
                     $produit = $produit_liste[$produit_id];
 
-                    if ( $produit->getQuantite() >= $quantite) {
-                        $produit->setQuantite($quantite);
-                    } else {
-                        $produit->setQuantite($produit->getQuantite());
-                    }
+                    if ( $produit->getQuantite() < $quantite) {
+
+                        $quantite = $produit->getQuantite();
+
+                    } 
 
                     $prix = $repository_prix->findOneBy(['produit_id' => $produit_id , 'etat' => 1 ]) ;
                     
@@ -150,6 +149,7 @@ class FactureController extends Controller{
                     $taux_tva       = $prix->getTauxTva();
                     $prix_ttc       = ($prix_unitaire) * (1 + (intval($taux_tva)/100) ) ;
                     $prix_total     = intval($prix_ttc) * intval($quantite);
+                    $quantite_commande       += intval($quantite);
                 $commande = (new Commande())
                     ->setPrixUnitaire($prix->getPrixUnitaire())
                     ->setPrixUnitaireTtc($prix_ttc)
@@ -159,7 +159,7 @@ class FactureController extends Controller{
                     ->setCreatedAt(new \DateTime())
                     ->setEtat(1)
                     ->setProduit($produit)
-                    ->setFacture($facture);
+                    ->setFacture($facture->setQuantite($quantite_commande));
 
                 $manager->persist($commande);
                 $manager->flush();

@@ -59,7 +59,7 @@ class StocksController extends Controller {
                         $produits[$produit_id]              =  $prod;
                         $quantite_total                    +=  intval($nb);
                         $quantite[$prod->getId()]           =  intval($nb);
-                        $prix[$produit_id]                  =  $repository_prix->findOneBy(['produit_id' =>  $produit_id ]);
+                        $prix[$produit_id]                  =  $repository_prix->findOneBy(['produit_id' =>  $produit_id ,'etat' => 1 ]);
                     }
                 }
 

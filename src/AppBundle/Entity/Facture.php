@@ -40,6 +40,15 @@ class Facture
      * @ORM\Column(name="numero_commande", type="string", length=12)
      */
     private $numeroCommande;
+
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="quantite", type="decimal", precision=10, scale=0, nullable=true)
+     */
+    private $quantite;
+
     /**
      * @var string
      *
@@ -354,5 +363,29 @@ class Facture
     public function getEtat()
     {
         return $this->etat;
+    }
+
+    /**
+     * Set quantite
+     *
+     * @param string $quantite
+     *
+     * @return Facture
+     */
+    public function setQuantite($quantite)
+    {
+        $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    /**
+     * Get quantite
+     *
+     * @return string
+     */
+    public function getQuantite()
+    {
+        return $this->quantite;
     }
 }
