@@ -13,4 +13,3 @@ parameters:
     locale: fr
     urls_images: 'uploads/images'
     upload_directory: '%kernel.root_dir%/../web/%urls_images%'
-    

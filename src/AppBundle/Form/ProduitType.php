@@ -26,12 +26,13 @@ class ProduitType extends AbstractType
     {
         $builder
         ->add('fournisseur',EntityType::class,[
+            'label'=>'Marque',
             'class' => Fournisseur::class,
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('f')
-                    ->orderBy('f.nom', 'ASC');
+                    ->orderBy('f.marque', 'ASC');
             },
-            'choice_label' => 'nom',
+            'choice_label' => 'marque',
         ])
         ->add('titre')
         ->add('image',FileType::class, array(

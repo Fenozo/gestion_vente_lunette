@@ -20,7 +20,7 @@
         <link rel="stylesheet" type="text/css" href="{{asset('assets/coloShop/styles/responsive.css')}}">
     </head>
     <body>
-<div class="super_container">
+<div class="super_container" ng-app="myApp">
 
 	<!-- Header -->
 
@@ -299,8 +299,11 @@
 		<script src="{{asset('assets/coloShop/plugins/OwlCarousel2-2.2.1/owl.carousel.js')}}"></script>
 		<script src="{{asset('assets/coloShop/plugins/easing/easing.js')}}"></script>
 		<script src="{{asset('assets/coloShop/js/custom.js')}}"></script>
+		<script src="{{asset('assets/angular/js/angular.js')}}"></script>
+		<script src="{{asset('assets/angular/js/app.js')}}"></script>
 		
 		{% block javascripts %}
+
         {% endblock %}
     </body>
 </html>
