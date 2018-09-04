@@ -335,6 +335,15 @@
 		padding-right: 20px;
 		min-width: 80px;
 	}
+	/*------------------------------------------------*/
+	.grid_sorting_button_
+	{
+		font-size: 13px;
+		padding-left: 20px;
+		padding-right: 20px;
+		min-width: 80px;
+	}
+	/*----------------------------------------------*
 	.product_slider_container
 	{
 		height: auto;
@@ -526,6 +535,16 @@
 		min-width: 60px;
 		height: 35px;
 	}
+	/*----------------------------------------*/
+	.grid_sorting_button_
+	{
+		font-size: 12px;
+		padding-left: 10px;
+		padding-right: 10px;
+		min-width: 60px;
+		height: 35px;
+	}
+	/*-----------------------------------*/
 	.product-item
 	{
 		width: 100%;

@@ -12,5 +12,9 @@ parameters:
     secret: test
     locale: fr
     urls_images: 'uploads/images'
+<<<<<<< HEAD
     upload_directory: '%kernel.root_dir%/../web/%urls_images%'
     
+=======
+    upload_directory: '%kernel.root_dir%/../web/%urls_images%'
+>>>>>>> dev
