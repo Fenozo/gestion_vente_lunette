@@ -16,12 +16,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class DashboardController extends Controller
 {
+    
 
     /**
      * @Route("/", name="home")
      */
     public function indexAction(Request $request)
     {
+        $urls_images = $this->container->getParameter('urls_images');
+
         $voter = $this->container->get("app.voteur");
         if ($voter != null ) {
             if  ($voter->isAdmin() == 3) {
@@ -30,7 +33,9 @@ class DashboardController extends Controller
         }
         
         // replace this example code with whatever you need
-        return $this->render('home/index.html.twig');
+        return $this->render('home/index.html.twig',[
+            'urls_images'  =>  $urls_images
+        ]);
     } 
     /**
      * @Route("admin/", name="dashboard")

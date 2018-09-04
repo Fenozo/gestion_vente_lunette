@@ -339,6 +339,7 @@ jQuery(document).ready(function($)
 	        {
 	        	$(this).on('click', function()
 	        	{
+					
 	        		$('.type_sorting_text').text($(this).text());
 	        		var option = $(this).attr('data-isotope-option');
 	        		option = JSON.parse( option );
