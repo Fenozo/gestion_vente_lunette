@@ -57,6 +57,28 @@ class ProductController extends Controller {
 
         $repo = $this->getDoctrine()->getRepository(Produit::class);
         $produits = $repo->findAll();
+
+        $interval = 2;
+        $datas_paginated = [];
+
+        $paginate =  ceil(count($produits)/$interval);
+        $count = 0;
+
+        for($i=1; $i<= $paginate; $i++) {
+            for($j=0; $j<$interval; $j++) {
+               
+                if (isset($produits[$count])) {
+                    $datas_paginated[$i][$j] = $produits[$count];
+                }
+                $count++;
+                
+            }
+        }
+        
+
+        dump($datas_paginated);
+
+        
         
         return $this->render("produit/admin/list.html.twig",[
             'produits'  =>  $produits,

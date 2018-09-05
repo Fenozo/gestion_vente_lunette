@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Helper\Form\StringToFileTransformer;
 
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Repository\FournisseurRepository;
@@ -26,20 +27,25 @@ class ProduitType extends AbstractType
     {
         $builder
         ->add('fournisseur',EntityType::class,[
+            'required'  =>  false,
             'label'=>'Marque',
             'class' => Fournisseur::class,
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('f')
-                    ->orderBy('f.marque', 'ASC');
+                    ->orderBy('f.nom', 'ASC');
             },
             'choice_label' => 'marque',
         ])
-        ->add('titre')
+        ->add('titre',null,[
+            'required'  =>  false
+        ])
         ->add('image',FileType::class, array(
             'data_class'    => null,
             'required'      => false
             ))
-        ->add('description')
+        ->add('description',TextareaType::class,[
+            'required'  =>  false
+        ])
         ->add('type', ChoiceType::class, array(
             'choices'  => array(
                 'Soleil' => 1,

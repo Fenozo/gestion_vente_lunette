@@ -10,6 +10,6 @@ parameters:
     mailer_user: null
     mailer_password: null
     secret: test
+    locale: fr
     urls_images: 'uploads/images'
-    upload_directory: '%kernel.root_dir%/../web/%urls_images%'
-    upload_directory: '%kernel.root_dir%/../web/%urls_images%'
+    upload_directory: '%kernel.root_dir%/../web/uploads/images'

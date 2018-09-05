@@ -3,7 +3,7 @@ application web fait en symfony 3.4.6 gestion de boutique de vente de lunette en
 
 -------------------------------------------------------------------------------------
 
-Instruction:
+#Instruction:
 
 Télécharger le projet 
 
@@ -23,7 +23,6 @@ Après avoir lancer ces différentes commandes vous pouvez maintenant se connéc
 
 -Pour les administrateur 
 ------------------------
-
 email           : 960gd7@gmail.com
 mot de passe    : admin771
 
@@ -31,7 +30,7 @@ email           : jrnvrs2@gmail.com
 mot de passe    : admin121
 
 -Pour les clients
-------------------
+-----------------------
 email           : jrnvrs1@gmail.com
 mot de passe    : client1
 

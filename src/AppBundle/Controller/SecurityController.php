@@ -87,7 +87,7 @@ class SecurityController extends Controller
      * @Route("/deconnexion", name="security_logout")
      */
     public function logout() {
-        return '';
+       
     }
 
 }
