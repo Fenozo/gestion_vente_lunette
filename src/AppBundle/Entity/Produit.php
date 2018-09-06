@@ -27,21 +27,22 @@ class Produit
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(payload={"severity"="error"}, message="Le produit doit avoir au moins un titre ! ")
      * @ORM\Column(name="titre", type="string", length=255)
      */
     private $titre;
 
     /**
      * 
-     *  @ORM\Column(name="image", type="string", length=255)
+     *  @ORM\Column(name="image", type="string", length=255,nullable=true)
      *  @Assert\File(mimeTypes={ "image/jpeg", "image/gif", "image/png","image/jpg" }, mimeTypesMessage = "Wrong file type (jpg,gif,png)")
      */
     private $image;
     
     /**
      * @var string
-     *
+     * @Assert\Valid()
+     * @Assert\NotBlank(payload={"severity"="error"}, message="Le produit doit avoir au moins une petite déscription ! ")
      * @ORM\Column(name="description", type="text")
      */
     private $description;

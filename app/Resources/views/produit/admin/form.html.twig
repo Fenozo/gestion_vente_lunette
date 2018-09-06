@@ -2,36 +2,37 @@
 
 {% block body %}
 
-{% form_theme form_produit 'bootstrap_4_layout.html.twig' %}
-<div class="container" style="min-height:450px;margin-top:200px;">
+    {% form_theme form_produit 'bootstrap_4_layout.html.twig' %}
+    <div class="container" style="min-height:450px;margin-top:200px;">
         {% if modifier == true %}
-            <h1>Modifier le produit n°: {{ id }}</h1>
-            {% else %}
+            <h1>Modifier le produit n°:
+                {{ id }}</h1>
+        {% else %}
             <h1>Ajouter un nouveau produit</h1>
         {% endif %}
-    
-    <div class="col-md-12">
-        {{ form_start(form_produit) }}
+
+        <div class="col-md-12">
+            {{ form_start(form_produit) }}
+
             {{ form_row(form_prix._token) }}
-            
+
             {{ form_row(form_produit.titre) }}
             {{ form_row(form_produit.image) }}
-            
+
             {{ form_row(form_produit.description) }}
-            
+
             {{ form_row(form_prix.prixUnitaire) }}
             {{ form_row(form_prix.tauxTva) }}
 
-        {{ form_widget(form_produit) }}
-        {% if modifier == true %}
-            <button class="btn btn-success">Modifier</button>
+            {{ form_widget(form_produit) }}
+            {% if modifier == true %}
+                <button class="btn btn-success">Modifier</button>
             {% else %}
-            <button class="btn btn-success">Enregister</button>
-        {% endif %}
-        
-        
-        {{ form_end(form_produit) }}
+                <button class="btn btn-success">Enregister</button>
+            {% endif %}
+
+            {{ form_end(form_produit) }}
+        </div>
     </div>
-</div>
 
 {% endblock %}

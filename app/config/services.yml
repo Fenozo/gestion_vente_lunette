@@ -2,7 +2,8 @@
 # https://symfony.com/doc/current/service_container.html
 parameters:
     #parameter_name: value
-
+    urls_images: 'uploads/images'
+    upload_directory: '%kernel.root_dir%/../web/%urls_images%'
 services:
  
     # default configuration for services in *this* file
@@ -18,6 +19,7 @@ services:
         class: AppBundle\Twig\CustomTwig
         tags:
             - { name: twig.extension }
+
     app.voteur:
         class: AppBundle\Helper\Security\Voter
         public: true
