@@ -85,7 +85,7 @@ class ProductController extends Controller {
         ]);
     }
 
-    /**
+        /**
      * @Route("admin/produit/new", name="ajouter_produit")
      * @Route("admin/produit/{id}/edit", name="modifier_produit")
      * @Method({"GET","POST"})
@@ -102,6 +102,7 @@ class ProductController extends Controller {
         }
         if  (is_null($produit)) {
             $produit    = new Produit();
+            $image_name = $produit->getImage();
         } else {
             $image_name = $produit->getImage();
             $prix = $repository_prix->findOneBy([
@@ -110,41 +111,33 @@ class ProductController extends Controller {
                 ]);
         }
         if ($produit->getId()) {
+            //dump($produit->getId());
             $prix_ancient = $repository_prix->findOneBy([
                 'produit_id'=> $produit->getId(),
                 'etat'      => 1
             ]);
-
-            $prixTtc_ancien     = $prix_ancient->getPrixUnitaireTtc();
-            $unitaire_ancien    = $prix_ancient->getPrixUnitaire();
-            $tva_ancien         = $prix_ancient->getTauxTva();
+            if ($prix_ancient != null) {
+                $prixTtc_ancien     = $prix_ancient->getPrixUnitaireTtc();
+                $unitaire_ancien    = $prix_ancient->getPrixUnitaire();
+                $tva_ancien         = $prix_ancient->getTauxTva();
+            }
         }
-
-
         if  (is_null($prix)) {
             $prix = new Prix();
         }
-
         $urls_images = $this->container->getParameter('urls_images');
-
-
-
         $form_produit   = $this->createForm(ProduitType::class, $produit);
         $form_prix      = $this->createForm(PrixType::class, $prix);
         
        
         $form_produit->handleRequest($request);
         $form_prix->handleRequest($request);
-
         /***
          * Après une soumission d'une formulaire.
          */
-        if  ( $form_produit->isSubmitted()  && $form_produit->isValid()){
-
+        if  ( $form_produit->isSubmitted()  && $form_produit->isValid() && $form_prix->isSubmitted() && $form_prix->isValid()){
             
-        
             $file = $produit->getImage();
-
             if ($file != "") {
                 $fileName = md5(uniqid()) . '.' . $file->guessExtension();
                 $file->move(
@@ -163,47 +156,54 @@ class ProductController extends Controller {
             } 
 
             $manager->persist($produit);
-
-
+            $manager->flush();
             if ($produit->getId()) {
-
+                
                 if ($prix_ancient instanceof Prix) {
-
                     $prix_ancient
                         ->setEtat(0)
                         ->setPrixUnitaireTtc($prixTtc_ancien)
                         ->setPrixUnitaire($unitaire_ancien)
                         ->setTauxTva($tva_ancien)
                         ->setProduitId($produit->getId());
-
                     $manager->persist($prix_ancient);
                     $manager->flush();
                 }
-                dump($prix_ancient);
             }
-               
+            
 
-            $new_prix = new Prix();
-            $taux_tva           = $request->request->get('appbundle_prix')['tauxTva'];
-            $prix_unitaire      = $request->request->get('appbundle_prix')['prixUnitaire'];
-            $prix_ttc           = ($prix_unitaire) * (1 + ($taux_tva/100) ) ;
+                /**** Modification du prix de ce produit */
+                if ($request->request->get('appbundle_prix')['tauxTva'] != "") {
+                    $taux_tva       = $request->request->get('appbundle_prix')['tauxTva'];
+                } else {
+                    $taux_tva       = $prix->getTauxTva();
+                }
+                if ($request->request->get('appbundle_prix')['prixUnitaire'] != "") {
+                    $prix_unitaire      = $request->request->get('appbundle_prix')['prixUnitaire'];
+                } else {
+                    $prix_unitaire  = $prix->getPrixUnitaire();
+                }
 
-            $new_prix
-                    ->setEtat(1)
-                    ->setPrixUnitaire($prix_unitaire)
-                    ->setPrixUnitaireTtc($prix_ttc)
-                    ->setTauxTva($taux_tva)
-                    ->setProduitId($produit->getId());
+                $prix_ttc           = intval($prix_unitaire) * (1 + (intval($taux_tva)/100) ) ;
 
-            $manager->persist($new_prix);
-            $manager->flush();
+        
+                $new_prix  = new Prix();
+                $new_prix
+                        ->setEtat(1)
+                        ->setPrixUnitaire($prix_unitaire)
+                        ->setPrixUnitaireTtc($prix_ttc)
+                        ->setTauxTva($taux_tva)
+                        ->setProduitId($produit->getId());
+
+                $manager->persist($new_prix);
+                $manager->flush();
+
             
             if  (!is_null($produit->getId())) {
                 return $this->redirectToRoute('voir_produit',['id'=>$produit->getId()]);
             }
         }
         $id = ($produit->getId())? $produit->getId() : false;
-
         return $this->render('produit/admin/form.html.twig',[
             'form_produit'  =>  $form_produit->createView(),
             'form_prix'     =>  $form_prix->createView(),

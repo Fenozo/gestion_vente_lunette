@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Prix
  *
@@ -23,7 +23,8 @@ class Prix
 
     /**
      * @var string
-     *
+     * @Assert\Valid()
+     * @Assert\NotBlank(payload={"severity"="error"}, message="Le produit doit avoir au moins un prix unitaire ! ")
      * @ORM\Column(name="prix_unitaire", type="decimal", precision=10, scale=0)
      */
     private $prixUnitaire;
