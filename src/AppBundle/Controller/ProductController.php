@@ -76,7 +76,7 @@ class ProductController extends Controller {
         }
         
 
-        dump($datas_paginated);
+        //dump($datas_paginated);
 
         
         

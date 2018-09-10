@@ -137,7 +137,7 @@ class DashboardController extends Controller
 
         $comm = new StatistiqueCommande();
         $comm->init($sorties);
-        dump($comm->pourcentage());
+        //dump($comm->pourcentage());
 
         $different_produit_disponible = count($produits);
 

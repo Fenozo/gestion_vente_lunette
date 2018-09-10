@@ -208,7 +208,7 @@ class User implements UserInterface ,\Serializable
         
         if(in_array('ROLE_USER', $tmpRoles ) == false) {
             //var_dump(json_decode($this->roles));
-            $tmpRoles[] = 'ROLE_USER';
+            //$tmpRoles[] = 'ROLE_USER';
         }
         return $tmpRoles;
     }
