@@ -4,6 +4,7 @@ parameters:
     #parameter_name: value
     urls_images: 'uploads/images'
     upload_directory: '%kernel.root_dir%/../web/%urls_images%'
+    collectify.twig.extension.class: AppBundle\Twig\CustomTwig
 services:
  
     # default configuration for services in *this* file
