@@ -142,9 +142,10 @@ class CustomTwig extends \Twig_Extension
         
     }
 
+
+
     public function getName()
     {
-        return '';
+        return 'collectify_twig_extension';
     } 
-
 }
