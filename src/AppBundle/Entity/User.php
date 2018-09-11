@@ -64,7 +64,7 @@ class User implements UserInterface ,\Serializable
     private $confirm_password;
 
     /**
-     *  @ORM\OneToOne(targetEntity="UserInfos", cascade={"persist","remove","refresh","merge","detach"})
+     *  @ORM\OneToOne(targetEntity="UserInfos", cascade={"persist","remove","refresh","merge","detach"}, inversedBy="currentUser")
      *  @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $userinfos;
@@ -208,7 +208,7 @@ class User implements UserInterface ,\Serializable
         
         if(in_array('ROLE_USER', $tmpRoles ) == false) {
             //var_dump(json_decode($this->roles));
-            $tmpRoles[] = 'ROLE_USER';
+            //$tmpRoles[] = 'ROLE_USER';
         }
         return $tmpRoles;
     }

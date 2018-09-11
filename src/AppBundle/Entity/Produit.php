@@ -77,7 +77,6 @@ class Produit
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Fournisseur",  inversedBy="produits",cascade={"persist"})
      *
-     * @var [type]
      */
     private $fournisseur;
 

@@ -7,6 +7,7 @@ use AppBundle\Entity\UserInfos;
 use AppBundle\Form\RegistrationType;
 use AppBundle\Form\UserInfosType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -68,6 +69,7 @@ class SecurityController extends Controller
     /**
      *
      * @Route("connexion", name="security_login")
+     * 
      */
     public function login(AuthenticationUtils $authenticationUtils) {
         // get the login error if there is one

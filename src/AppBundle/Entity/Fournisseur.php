@@ -55,7 +55,7 @@ class Fournisseur
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Produit",  mappedBy="founisseur", orphanRemoval=true,cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Produit",  mappedBy="fournisseur", orphanRemoval=true,cascade={"remove","persist"})
      *
      */
     private $produits;
