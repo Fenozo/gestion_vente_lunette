@@ -67,6 +67,7 @@
     Produits = [];
 
     var url_produits = "{{ path('api_produits') }}";
+
      $.get(url_produits,{},function(P){
          $.each(P,function(index,elem){
              var Produit = {
@@ -92,9 +93,10 @@
          
          $.each(Produits,function(index,elem){
 
-            if (elem.id <12) {
+            
+
                 $('#liste_produits > ul').append('<li class="produit_'+elem.id+'"><div><em>'+elem.id+'</em></div><div>'+elem.titre+'</div><div><button id="'+elem.id+'" style="cursor:pointer;"  onClick="func(this.id)" class="btn btn-default addToStock" >+</button></div></li>');
-            }
+            
             
          });
         
