@@ -33,13 +33,16 @@ class Article
     }
 
     /**
-     * @ORM\Column(name="titre", type="integer")
-     * 
+     * @var string
+     *
+     * @ORM\Column(name="titre", type="string", length=255, nullable=true)
      */
     private $titre;
 
     /**
-     * @ORM\Column(name="description", type="integer")
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
@@ -49,51 +52,6 @@ class Article
     private $category;
 
 
-    /**
-     * Set titre
-     *
-     * @param integer $titre
-     *
-     * @return Article
-     */
-    public function setTitre($titre)
-    {
-        $this->titre = $titre;
 
-        return $this;
-    }
 
-    /**
-     * Get titre
-     *
-     * @return integer
-     */
-    public function getTitre()
-    {
-        return $this->titre;
-    }
-
-    /**
-     * Set description
-     *
-     * @param integer $description
-     *
-     * @return Article
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return integer
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
 }

@@ -33,13 +33,16 @@ class Article
     }
 
     /**
-     * @ORM\Column(name="titre", type="integer")
-     * 
+     * @var string
+     *
+     * @ORM\Column(name="titre", type="string", length=255, nullable=true)
      */
     private $titre;
 
     /**
-     * @ORM\Column(name="description", type="integer")
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
@@ -49,10 +52,13 @@ class Article
     private $category;
 
 
+
+
+
     /**
      * Set titre
      *
-     * @param integer $titre
+     * @param string $titre
      *
      * @return Article
      */
@@ -66,7 +72,7 @@ class Article
     /**
      * Get titre
      *
-     * @return integer
+     * @return string
      */
     public function getTitre()
     {
@@ -76,7 +82,7 @@ class Article
     /**
      * Set description
      *
-     * @param integer $description
+     * @param string $description
      *
      * @return Article
      */
@@ -90,7 +96,7 @@ class Article
     /**
      * Get description
      *
-     * @return integer
+     * @return string
      */
     public function getDescription()
     {
