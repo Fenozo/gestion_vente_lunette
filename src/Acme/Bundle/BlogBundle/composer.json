@@ -1,0 +1,15 @@
+{
+    "name":"zo/BlogBundle",
+    "autoload": {
+        "psr-4": {
+            "Acme\\Bundle\\BlogBundle\\": "src/Acme/Bundle/BlogBundle"
+        },
+        "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
+    },
+    "target-dir" : "src/Acme/Bundle/BlogBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

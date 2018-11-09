@@ -1,3 +1,7 @@
+acme_bundle_blog:
+    resource: "@AcmeBundleBlogBundle/Controller/"
+    type:     annotation
+    prefix:   /blog
 
 app:
     resource: '@AppBundle/Controller/'
