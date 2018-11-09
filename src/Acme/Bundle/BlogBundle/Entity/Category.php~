@@ -37,7 +37,7 @@ class Category
 
 
     /**
-     * @ORM\OneToMany(targetEntity="Acme\Bundle\BlogBundle\Article", mappedBy="categorie", cascade={"persist","remove","merge"})
+     * @ORM\OneToMany(targetEntity="Acme\Bundle\BlogBundle\Entity\Article", mappedBy="categorie", cascade={"persist","remove","merge"})
      */
     private $articles;
 
@@ -99,5 +99,24 @@ class Category
     {
         return $this->description;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+
+
+    /**
+     * Get articles
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getArticles()
+    {
+        return $this->articles;
+    }
+}

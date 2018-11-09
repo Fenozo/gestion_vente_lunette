@@ -37,7 +37,7 @@ class Category
 
 
     /**
-     * @ORM\OneToMany(targetEntity="Acme\Bundle\BlogBundle\Article", mappedBy="categorie", cascade={"persist","remove","merge"})
+     * @ORM\OneToMany(targetEntity="Acme\Bundle\BlogBundle\Entity\Article", mappedBy="categorie", cascade={"persist","remove","merge"})
      */
     private $articles;
 
@@ -108,28 +108,7 @@ class Category
     }
 
     /**
-     * Add article
-     *
-     * @param \Acme\Bundle\BlogBundle\Article $article
-     *
-     * @return Category
-     */
-    public function addArticle(\Acme\Bundle\BlogBundle\Article $article)
-    {
-        $this->articles[] = $article;
 
-        return $this;
-    }
-
-    /**
-     * Remove article
-     *
-     * @param \Acme\Bundle\BlogBundle\Article $article
-     */
-    public function removeArticle(\Acme\Bundle\BlogBundle\Article $article)
-    {
-        $this->articles->removeElement($article);
-    }
 
     /**
      * Get articles
@@ -139,5 +118,29 @@ class Category
     public function getArticles()
     {
         return $this->articles;
+    }
+
+    /**
+     * Add article
+     *
+     * @param \Acme\Bundle\BlogBundle\Entity\Article $article
+     *
+     * @return Category
+     */
+    public function addArticle(\Acme\Bundle\BlogBundle\Entity\Article $article)
+    {
+        $this->articles[] = $article;
+
+        return $this;
+    }
+
+    /**
+     * Remove article
+     *
+     * @param \Acme\Bundle\BlogBundle\Entity\Article $article
+     */
+    public function removeArticle(\Acme\Bundle\BlogBundle\Entity\Article $article)
+    {
+        $this->articles->removeElement($article);
     }
 }

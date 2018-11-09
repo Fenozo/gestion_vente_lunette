@@ -1,0 +1,4 @@
+acme_bundle_blog_category:
+    resource: "@AcmeBundleBlogBundle/Resources/config/routing/category.xml"
+    prefix:   /category
+
