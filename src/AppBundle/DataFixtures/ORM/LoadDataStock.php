@@ -26,6 +26,7 @@ class LoadDataStock implements ORMFixtureInterface ,OrderedFixtureInterface, Con
     {
         $this->container = $container;
     }
+
     public function load(ObjectManager $manager)
     {
         /**
@@ -47,6 +48,7 @@ class LoadDataStock implements ORMFixtureInterface ,OrderedFixtureInterface, Con
         $quantite       = [];
         $prix           = [];
         $total          = 0;
+        
         foreach ($produis as $produit) {
             $rand =  mt_rand(1,4);
             if ($rand % 2 == 0) {
@@ -80,7 +82,7 @@ class LoadDataStock implements ORMFixtureInterface ,OrderedFixtureInterface, Con
                 ->setType(1)
                 ->setEtat(1)
                 ->setProduit( $prod )
-                ->setStock( $stock ) ;
+                ->setStock( $stock );
 
             $manager->persist($mouvements);
             }

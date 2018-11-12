@@ -1,0 +1,86 @@
+.tb-grid-actualite {
+
+    margin-bottom: 40px;
+    min-height: 125px;
+
+}
+
+/* ################################################ */
+
+.t-b-actualite {
+
+    position: relative;
+    border: 2px solid;
+    min-height: 86px;
+}
+.t-b-actualite >div>div {
+
+    position: absolute;
+    background: #d5aa6d;
+    text-align: center;
+    left: 0px;
+    top: 0px;
+    display: inline-block;
+    text-decoration: none;
+    padding: 7px 10px;
+
+}
+/* ################################################ */
+.t-b-actualite >div+div{
+    position: relative;
+}
+.t-b-actualite >div+div>h2{
+    position: relative;
+    left:0px;
+    margin-left: 37px;
+}
+.t-b-actualite >div+div>p{
+    padding-left: 54px;
+    padding-right: 45px;
+}
+
+/* ################################################ */
+
+.t-b-actualite span:first-child {
+
+    font-size: 12px;
+    color: #fdfdfd;
+    font-family: 'Lora', serif;
+    display: block;
+
+}
+
+.t-b-actualite span:last-child {
+
+    font-size: 26px;
+    color: #fdfdfd;
+    font-family: 'Lora', serif;
+    font-weight: bold;
+    margin-top: 0;
+    display: block;
+    position: relative;
+}
+
+.t-b-actualite div {
+    
+    text-align: center;
+}
+
+.t-b-actualite span:last-child::after {
+
+    position: absolute;
+    content: "";
+    border-color: #d5aa6d transparent transparent #d5aa6d;
+    border-style: solid;
+    border-width: 5px;
+    bottom: -16px;
+    height: 0;
+    left: -10px;
+    width: 0;
+
+}
+
+/* ################################################ */
+.image_actualite {
+    min-height: 520px;
+}

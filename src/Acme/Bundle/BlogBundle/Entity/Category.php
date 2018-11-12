@@ -37,7 +37,7 @@ class Category
 
 
     /**
-     * @ORM\OneToMany(targetEntity="Acme\Bundle\BlogBundle\Entity\Article", mappedBy="categorie", cascade={"persist","remove","merge"})
+     * @ORM\OneToMany(targetEntity="Acme\Bundle\BlogBundle\Entity\Article", mappedBy="category", cascade={"persist","remove","merge"})
      */
     private $articles;
 

@@ -1,0 +1,53 @@
+{% extends 'blog.html.twig' %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <h1>Article creation</h1>
+
+        <div class="blog-reply-form">
+            {{ form_start(form) }}
+                {# -----------------Libelle et désription------------------------ #}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.titre) }}
+                            {{ form_widget(form.titre,{attr:{'placeholder':'TITRE'}}) }}
+                            {{ form_errors(form.titre) }}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    {# -----------------Libelle et désription------------------------ #}
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.category) }}
+                            {{ form_widget(form.category) }}
+                            {{ form_errors(form.category) }}
+                        </div>  
+                    </div>
+                    {# -----------------Libelle et désription------------------------ #}
+                </div>
+                <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.description) }}
+                                {{ form_widget(form.description,{attr:{'placeholder':'DESCRIPTION'}}) }}
+                                {{ form_errors(form.description) }}
+                            </div>  
+                        </div>
+                    
+                </div>
+        
+                <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
+        
+            {{ form_end(form) }}
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}

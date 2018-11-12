@@ -15,7 +15,6 @@ class LoadDataProduit implements ORMFixtureInterface ,OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
 
-       
         $prduits            = self::load_product();
         $faker              =   Factory::create('fr_FR');
         $data_fournisseur   = [];

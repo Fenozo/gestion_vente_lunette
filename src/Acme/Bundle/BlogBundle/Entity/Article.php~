@@ -21,17 +21,6 @@ class Article
      */
     private $id;
 
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
     /**
      * @var string
      *
@@ -51,7 +40,125 @@ class Article
      */
     private $category;
 
+    /**
+     * @var \Datetime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createdAt;
+
+
+    /**
+     * @var \Datetime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updateAt;
 
 
 
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    
+
+    /**
+     * Set titre
+     *
+     * @param string $titre
+     *
+     * @return Article
+     */
+    public function setTitre($titre)
+    {
+        $this->titre = $titre;
+
+        return $this;
+    }
+
+    /**
+     * Get titre
+     *
+     * @return string
+     */
+    public function getTitre()
+    {
+        return $this->titre;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Article
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \Acme\Bundle\BlogBundle\Entity\Category $category
+     *
+     * @return Article
+     */
+    public function setCategory(\Acme\Bundle\BlogBundle\Entity\Category $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \Acme\Bundle\BlogBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Article
+     */
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
 }

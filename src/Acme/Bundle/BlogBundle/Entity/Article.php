@@ -21,17 +21,6 @@ class Article
      */
     private $id;
 
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
     /**
      * @var string
      *
@@ -51,9 +40,31 @@ class Article
      */
     private $category;
 
+    /**
+     * @var \Datetime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createdAt;
+
+
+    /**
+     * @var \Datetime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updateAt;
 
 
 
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    
 
     /**
      * Set titre
@@ -125,5 +136,53 @@ class Article
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Article
+     */
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updateAt
+     *
+     * @param \DateTime $updateAt
+     *
+     * @return Article
+     */
+    public function setUpdateAt($updateAt)
+    {
+        $this->updateAt = $updateAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updateAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdateAt()
+    {
+        return $this->updateAt;
     }
 }

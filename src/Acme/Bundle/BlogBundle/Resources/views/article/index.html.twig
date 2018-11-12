@@ -1,41 +1,224 @@
 {% extends 'blog.html.twig' %}
 
 {% block body %}
-    <h1>Articles list</h1>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <div class="Title-area">
+                        <h3>Our History</h3>
+                        <h2>Actualité</h2>
+                        <p>Trust is a business theme perfectly suited legal advisers and offices, lawyers, attorneys, counsels, advocates and other legal and law related services.</p>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="testimonial-area home-2-testimonial-area">
+            <div class="testimonial-content-area">
+                <div class="container">
+                    <div class="row">
+                        
+                        <div class="t-b-content-area blog-content-area clearfix">
+                            <div class="col-md-12 no-padding blog-custom-padding">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="t-b-details t-b-single tb-grid-actualite">
+                                        <div class="t-b-actualite">
+                                            <div>
+                                                <div><span>JUNE</span><span>30</span></div>
+                                            </div>
+                                            <div>
+                                                <h2><a href="#">It’s My Pleasure to graduate with excellent!</a></h2>
+                                                <p>We are aiming to provide high quality legal consultancy, support and results for your legal issues. Aiming to provide high quality legal consultancy, ...</p>
+                                            </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for article in articles %}
-            <tr>
-                <td><a href="{{ path('article_show', { 'id': article.id }) }}">{{ article.id }}</a></td>
-                <td>{{ article.titre }}</td>
-                <td>{{ article.description }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('article_show', { 'id': article.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('article_edit', { 'id': article.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                                        </div>
+                                        <div class="t-b-comment blog-post-comment">
+                                            <p>Posted In: <span><a href="#">Legal Advice</a></span></p>
+                                            <p><span><a href="#"><i class="fa fa-comments"></i></a><a href="#">15</a> </span>
+                                               <span><a href="#"><i class="fa fa-eye"></i></a> 11</span></p>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('article_new') }}">Create a new article</a>
-        </li>
-    </ul>
-{% endblock %}
+                                {% for article in articles %}
+                                    
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="t-b-details t-b-single tb-grid-actualite">
+                                            <div class="t-b-actualite">
+                                                <div>
+                                                    <div><span>JUNE</span><span>30</span></div>
+                                                </div>
+                                                <div>
+                                                    <h2><a href="{{ path('public_article_detail',{id:article.id}) }}">{{ article.titre }}</a></h2>
+                                                    <p>We are aiming to provide high quality legal consultancy, support and results for your legal issues. Aiming to provide high quality legal consultancy, ...</p>
+                                                </div>
+    
+                                            </div>
+                                            <div class="t-b-comment blog-post-comment">
+                                                <p>Posted In: <span><a href="#">Legal Advice</a></span></p>
+                                                <p><span><a href="#"><i class="fa fa-comments"></i></a><a href="#">15</a> </span>
+                                                    <span><a href="#"><i class="fa fa-eye"></i></a> 11</span></p>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                {% endfor %}
+
+                                
+
+                                <div class="col-md-6 col-sm-6">
+                                        <div class="t-b-details t-b-single tb-grid-actualite">
+                                            <div class="t-b-actualite">
+                                                <div>
+                                                    <div><span>JUNE</span><span>30</span></div>
+                                                </div>
+                                                <div>
+                                                    <h2><a href="#">It’s My Pleasure to graduate with excellent!</a></h2>
+                                                    <p>We are aiming to provide high quality legal consultancy, support and results for your legal issues. Aiming to provide high quality legal consultancy, ...</p>
+                                                </div>
+    
+                                            </div>
+                                            <div class="t-b-comment blog-post-comment">
+                                                <p>Posted In: <span><a href="#">Legal Advice</a></span></p>
+                                                <p><span><a href="#"><i class="fa fa-comments"></i></a><a href="#">15</a> </span>
+                                                   <span><a href="#"><i class="fa fa-eye"></i></a> 11</span></p>
+                                            </div>
+                                            
+                                        </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="t-b-details t-b-single tb-grid-actualite">
+                                        <div class="t-b-actualite">
+                                            <div>
+                                                <div><span>JUNE</span><span>30</span></div>
+                                            </div>
+                                            <div>
+                                                <h2><a href="#">It’s My Pleasure to graduate with excellent!</a></h2>
+                                                <p>We are aiming to provide high quality legal consultancy, support and results for your legal issues. Aiming to provide high quality legal consultancy, ...</p>
+                                            </div>
+
+                                        </div>
+                                        <div class="t-b-comment blog-post-comment">
+                                            <p>Posted In: <span><a href="#">Legal Advice</a></span></p>
+                                            <p><span><a href="#"><i class="fa fa-comments"></i></a><a href="#">15</a> </span>
+                                                <span><a href="#"><i class="fa fa-eye"></i></a> 11</span></p>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="t-b-details t-b-single tb-grid-actualite">
+                                        <div class="t-b-actualite">
+                                            <div>
+                                                <div><span>JUNE</span><span>30</span></div>
+                                            </div>
+                                            <div>
+                                                <h2><a href="#">It’s My Pleasure to graduate with excellent!</a></h2>
+                                                <p>We are aiming to provide high quality legal consultancy, support and results for your legal issues. Aiming to provide high quality legal consultancy, ...</p>
+                                            </div>
+
+                                        </div>
+                                        <div class="t-b-comment blog-post-comment">
+                                            <p>Posted In: <span><a href="#">Legal Advice</a></span></p>
+                                            <p><span><a href="#"><i class="fa fa-comments"></i></a><a href="#">15</a> </span>
+                                                <span><a href="#"><i class="fa fa-eye"></i></a> 11</span></p>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="t-b-details t-b-single tb-grid-actualite">
+                                        <div class="t-b-actualite">
+                                            <div>
+                                                <div><span>JUNE</span><span>30</span></div>
+                                            </div>
+                                            <div>
+                                                <h2><a href="#">It’s My Pleasure to graduate with excellent!</a></h2>
+                                                <p>We are aiming to provide high quality legal consultancy, support and results for your legal issues. Aiming to provide high quality legal consultancy, ...</p>
+                                            </div>
+
+                                        </div>
+                                        <div class="t-b-comment blog-post-comment">
+                                            <p>Posted In: <span><a href="#">Legal Advice</a></span></p>
+                                            <p><span><a href="#"><i class="fa fa-comments"></i></a><a href="#">15</a> </span>
+                                                <span><a href="#"><i class="fa fa-eye"></i></a> 11</span></p>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="t-b-details t-b-single tb-grid-actualite">
+                                        <div class="t-b-actualite">
+                                            <div>
+                                                <div><span>JUNE</span><span>30</span></div>
+                                            </div>
+                                            <div>
+                                                <h2><a href="#">It’s My Pleasure to graduate with excellent!</a></h2>
+                                                <p>We are aiming to provide high quality legal consultancy, support and results for your legal issues. Aiming to provide high quality legal consultancy, ...</p>
+                                            </div>
+
+                                        </div>
+                                        <div class="t-b-comment blog-post-comment">
+                                            <p>Posted In: <span><a href="#">Legal Advice</a></span></p>
+                                            <p><span><a href="#"><i class="fa fa-comments"></i></a><a href="#">15</a> </span>
+                                                <span><a href="#"><i class="fa fa-eye"></i></a> 11</span></p>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="t-b-details t-b-single tb-grid-actualite">
+                                        <div class="t-b-actualite">
+                                            <div>
+                                                <div><span>JUNE</span><span>30</span></div>
+                                            </div>
+                                            <div>
+                                                <h2><a href="#">It’s My Pleasure to graduate with excellent!</a></h2>
+                                                <p>We are aiming to provide high quality legal consultancy, support and results for your legal issues. Aiming to provide high quality legal consultancy, ...</p>
+                                            </div>
+
+                                        </div>
+                                        <div class="t-b-comment blog-post-comment">
+                                            <p>Posted In: <span><a href="#">Legal Advice</a></span></p>
+                                            <p><span><a href="#"><i class="fa fa-comments"></i></a><a href="#">15</a> </span>
+                                                <span><a href="#"><i class="fa fa-eye"></i></a> 11</span></p>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-12 blog-pagination text-center clearfix">
+                                        <nav>
+                                            <ul class="pagination">
+                                                <li><a href="#">1</a></li>
+                                                <li><a href="#">2</a></li>
+                                                <li>
+                                                  <a href="#" aria-label="Next">
+                                                    <i class="fa fa-long-arrow-right"></i>
+                                                  </a>
+                                                </li>
+                                            </ul>
+                                        </nav>                                    
+                                    </div>
+                                </div>    
+                            </div>    
+                        </div>
+                    </div>
+                </div>       
+            </div>       
+        </section><!-- end testimonial area -->    
+    
+      
+    {% endblock body  %}
